@@ -1,0 +1,32 @@
+### Auth Testing
+
+@baseUrl = http://localhost:5000/api/v1
+@email = test@example.com
+@password = Password123!
+
+### Register User
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+
+{
+    "email": "{{email}}",
+    "password": "{{password}}",
+    "firstName": "Test",
+    "lastName": "User"
+}
+
+### Login User (Proxy to Keycloak)
+# @name login
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+    "email": "{{email}}",
+    "password": "{{password}}"
+}
+
+### Use Access Token
+@accessToken = {{login.response.body.access_token}}
+
+GET {{baseUrl}}/projects
+Authorization: Bearer {{accessToken}}

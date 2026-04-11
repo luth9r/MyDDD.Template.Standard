@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/infra/">
+    <Project Path="infra/MyDDD.Template.AppHost/MyDDD.Template.AppHost.csproj" />
+    <Project Path="infra/MyDDD.Template.ServiceDefaults/MyDDD.Template.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src\MyDDD.Template.Api\MyDDD.Template.Api.csproj" />
+    <Project Path="src\MyDDD.Template.Application\MyDDD.Template.Application.csproj" />
+    <Project Path="src\MyDDD.Template.Domain\MyDDD.Template.Domain.csproj" />
+    <Project Path="src\MyDDD.Template.Infrastructure\MyDDD.Template.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests\MyDDD.Template.IntegrationTests\MyDDD.Template.IntegrationTests.csproj" />
+    <Project Path="tests\MyDDD.Template.UnitTests\MyDDD.Template.UnitTests.csproj" />
+  </Folder>
+</Solution>

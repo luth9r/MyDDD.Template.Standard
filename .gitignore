@@ -1,0 +1,53 @@
+## .NET Core
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+## Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+## JetBrains (Rider, IntelliJ, etc.)
+.idea/
+*.sln.DotSettings.user
+
+## VS Code
+.vscode/
+
+## MSBuild
+node_modules/
+[Bb]in/
+[Oo]bj/
+_ReSharper*/
+
+## Publish
+publish/
+
+## Aspire
+AppHost/bin/
+AppHost/obj/
+ServiceDefaults/bin/
+ServiceDefaults/obj/
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Docker
+.dockerignore
+# Don't ignore the file itself, but maybe temporary docker things if any
+# Docker artifacts
+.docker/
+
+## Application Secrets
+appsettings.Development.json
+# Note: Keep appsettings.json, but ignore development secrets if you use a separate file
+# secrets.json

@@ -1,0 +1,21 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  MyDDD.Template.Domain -> /home/luther/Projects/MyDDD.Template.Standard/src/MyDDD.Template.Domain/bin/Debug/net10.0/MyDDD.Template.Domain.dll
+  MyDDD.Template.Application -> /home/luther/Projects/MyDDD.Template.Standard/src/MyDDD.Template.Application/bin/Debug/net10.0/MyDDD.Template.Application.dll
+  MyDDD.Template.Infrastructure -> /home/luther/Projects/MyDDD.Template.Standard/src/MyDDD.Template.Infrastructure/bin/Debug/net10.0/MyDDD.Template.Infrastructure.dll
+  MyDDD.Template.ServiceDefaults -> /home/luther/Projects/MyDDD.Template.Standard/infra/MyDDD.Template.ServiceDefaults/bin/Debug/net10.0/MyDDD.Template.ServiceDefaults.dll
+  MyDDD.Template.Api -> /home/luther/Projects/MyDDD.Template.Standard/src/MyDDD.Template.Api/bin/Debug/net10.0/MyDDD.Template.Api.dll
+  MyDDD.Template.AppHost -> /home/luther/Projects/MyDDD.Template.Standard/infra/MyDDD.Template.AppHost/bin/Debug/net10.0/MyDDD.Template.AppHost.dll
+/home/luther/Projects/MyDDD.Template.Standard/tests/MyDDD.Template.IntegrationTests/ApiTests.cs(15,26): error CS1061: 'IServiceCollection' does not contain a definition for 'ConfigureHttpClientDefaults' and no accessible extension method 'ConfigureHttpClientDefaults' accepting a first argument of type 'IServiceCollection' could be found (are you missing a using directive or an assembly reference?) [/home/luther/Projects/MyDDD.Template.Standard/tests/MyDDD.Template.IntegrationTests/MyDDD.Template.IntegrationTests.csproj]
+/home/luther/Projects/MyDDD.Template.Standard/tests/MyDDD.Template.IntegrationTests/ApiTests.cs(11,23): warning CA1707: Remove the underscores from member name MyDDD.Template.IntegrationTests.ApiTests.Get_Alive_Should_ReturnOk() (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1707) [/home/luther/Projects/MyDDD.Template.Standard/tests/MyDDD.Template.IntegrationTests/MyDDD.Template.IntegrationTests.csproj]
+/home/luther/Projects/MyDDD.Template.Standard/tests/MyDDD.Template.IntegrationTests/ApiTests.cs(33,23): warning CA1707: Remove the underscores from member name MyDDD.Template.IntegrationTests.ApiTests.Get_Health_Should_ReturnOk_In_Development() (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1707) [/home/luther/Projects/MyDDD.Template.Standard/tests/MyDDD.Template.IntegrationTests/MyDDD.Template.IntegrationTests.csproj]
+
+Build FAILED.
+
+/home/luther/Projects/MyDDD.Template.Standard/tests/MyDDD.Template.IntegrationTests/ApiTests.cs(11,23): warning CA1707: Remove the underscores from member name MyDDD.Template.IntegrationTests.ApiTests.Get_Alive_Should_ReturnOk() (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1707) [/home/luther/Projects/MyDDD.Template.Standard/tests/MyDDD.Template.IntegrationTests/MyDDD.Template.IntegrationTests.csproj]
+/home/luther/Projects/MyDDD.Template.Standard/tests/MyDDD.Template.IntegrationTests/ApiTests.cs(33,23): warning CA1707: Remove the underscores from member name MyDDD.Template.IntegrationTests.ApiTests.Get_Health_Should_ReturnOk_In_Development() (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1707) [/home/luther/Projects/MyDDD.Template.Standard/tests/MyDDD.Template.IntegrationTests/MyDDD.Template.IntegrationTests.csproj]
+/home/luther/Projects/MyDDD.Template.Standard/tests/MyDDD.Template.IntegrationTests/ApiTests.cs(15,26): error CS1061: 'IServiceCollection' does not contain a definition for 'ConfigureHttpClientDefaults' and no accessible extension method 'ConfigureHttpClientDefaults' accepting a first argument of type 'IServiceCollection' could be found (are you missing a using directive or an assembly reference?) [/home/luther/Projects/MyDDD.Template.Standard/tests/MyDDD.Template.IntegrationTests/MyDDD.Template.IntegrationTests.csproj]
+    2 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:01.76

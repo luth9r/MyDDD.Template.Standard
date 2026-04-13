@@ -19,11 +19,12 @@ public static class ResultExtensions
                 statusCode: StatusCodes.Status400BadRequest,
                 extensions: new Dictionary<string, object?>
                 {
-                    { "errors", validationResult.Errors
-                        .GroupBy(e => e.Code)
-                        .ToDictionary(
-                            g => g.Key,
-                            g => g.Select(e => e.Message).ToArray())
+                    {
+                        "errors", validationResult.Errors
+                            .GroupBy(e => e.Code)
+                            .ToDictionary(
+                                g => g.Key,
+                                g => g.Select(e => e.Message).ToArray())
                     },
                 }),
 
@@ -31,10 +32,7 @@ public static class ResultExtensions
                 title: GetTitle(result.Error.Type),
                 detail: result.Error.Message,
                 statusCode: GetStatusCode(result.Error.Type),
-                extensions: new Dictionary<string, object?>
-                {
-                    { "code", result.Error.Code },
-                }),
+                extensions: new Dictionary<string, object?> { { "code", result.Error.Code } }),
         };
     }
 

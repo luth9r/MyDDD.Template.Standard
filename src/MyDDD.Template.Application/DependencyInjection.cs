@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using FluentValidation;
-using MyDDD.Template.Application.Abstractions.Messaging;
 
 namespace MyDDD.Template.Application;
 

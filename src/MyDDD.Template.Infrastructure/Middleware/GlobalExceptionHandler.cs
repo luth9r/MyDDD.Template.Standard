@@ -53,7 +53,7 @@ public sealed partial class GlobalExceptionHandler(
                 "Server Error",
                 "https://tools.ietf.org/html/rfc9110#section-15.6.1",
                 "An unexpected error occurred."
-            )
+            ),
         };
 
         var problemDetails = new ProblemDetails
@@ -62,7 +62,7 @@ public sealed partial class GlobalExceptionHandler(
             Title = title,
             Type = type,
             Detail = env.IsDevelopment() ? exception.Message : detail,
-            Instance = httpContext.Request.Path
+            Instance = httpContext.Request.Path,
         };
 
         if (exception is ValidationException valEx)
@@ -81,14 +81,15 @@ public sealed partial class GlobalExceptionHandler(
 
         await problemDetailsService.WriteAsync(new ProblemDetailsContext
         {
-            HttpContext = httpContext,
-            Exception = exception,
-            ProblemDetails = problemDetails
+            HttpContext = httpContext, Exception = exception, ProblemDetails = problemDetails,
         });
 
         return true;
     }
 
     [LoggerMessage(LogLevel.Error, "Unhandled exception: {Message}")]
-    static partial void LogUnhandledExceptionMessage(ILogger<GlobalExceptionHandler> logger, Exception exception, string message);
+    static partial void LogUnhandledExceptionMessage(
+        ILogger<GlobalExceptionHandler> logger,
+        Exception exception,
+        string message);
 }

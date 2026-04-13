@@ -34,7 +34,7 @@ public class GlobalExceptionHandlerTests
         var errors = new[] { new MyError("Code", "Message", ErrorType.Validation) };
         var validationResult = ValidationResult.WithErrors(errors);
         var exception = new ValidationException(validationResult);
-        
+
         _envMock.Setup(x => x.EnvironmentName).Returns(Environments.Production);
         _problemDetailsServiceMock.Setup(x => x.WriteAsync(It.IsAny<ProblemDetailsContext>()))
             .Returns(ValueTask.CompletedTask);
@@ -45,7 +45,7 @@ public class GlobalExceptionHandlerTests
         // Assert
         result.Should().BeTrue();
         context.Response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
-        _problemDetailsServiceMock.Verify(x => x.WriteAsync(It.Is<ProblemDetailsContext>(c => 
+        _problemDetailsServiceMock.Verify(x => x.WriteAsync(It.Is<ProblemDetailsContext>(c =>
             c.ProblemDetails.Status == StatusCodes.Status400BadRequest &&
             c.ProblemDetails.Title == "Validation Error" &&
             c.ProblemDetails.Extensions.ContainsKey("errors"))), Times.Once);
@@ -67,7 +67,7 @@ public class GlobalExceptionHandlerTests
         // Assert
         result.Should().BeTrue();
         context.Response.StatusCode.Should().Be(StatusCodes.Status401Unauthorized);
-        _problemDetailsServiceMock.Verify(x => x.WriteAsync(It.Is<ProblemDetailsContext>(c => 
+        _problemDetailsServiceMock.Verify(x => x.WriteAsync(It.Is<ProblemDetailsContext>(c =>
             c.ProblemDetails.Status == StatusCodes.Status401Unauthorized)), Times.Once);
     }
 
@@ -76,7 +76,7 @@ public class GlobalExceptionHandlerTests
     {
         // Arrange
         var context = new DefaultHttpContext();
-        var exception = new Exception("Critical error");
+        var exception = new InvalidOperationException("Critical error");
         _envMock.Setup(x => x.EnvironmentName).Returns(Environments.Development);
         _problemDetailsServiceMock.Setup(x => x.WriteAsync(It.IsAny<ProblemDetailsContext>()))
             .Returns(ValueTask.CompletedTask);
@@ -85,7 +85,7 @@ public class GlobalExceptionHandlerTests
         await _handler.TryHandleAsync(context, exception, default);
 
         // Assert
-        _problemDetailsServiceMock.Verify(x => x.WriteAsync(It.Is<ProblemDetailsContext>(c => 
+        _problemDetailsServiceMock.Verify(x => x.WriteAsync(It.Is<ProblemDetailsContext>(c =>
             c.ProblemDetails.Extensions.ContainsKey("debug_exception") &&
             c.ProblemDetails.Detail == "Critical error")), Times.Once);
     }

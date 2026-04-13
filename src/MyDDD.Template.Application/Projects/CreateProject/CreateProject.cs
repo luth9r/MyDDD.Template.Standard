@@ -1,6 +1,5 @@
 using FluentValidation;
 using MyDDD.Template.Application.Abstractions;
-using MyDDD.Template.Application.Abstractions.Messaging;
 using MyDDD.Template.Domain;
 using MyDDD.Template.Domain.Primitives;
 using MyDDD.Template.Domain.Projects;
@@ -28,7 +27,6 @@ public static class CreateProjectCommandHandler
         IUserContext userContext,
         CancellationToken cancellationToken)
     {
-
         if (await projectRepository.GetByNameAsync(request.Name, cancellationToken) is not null)
         {
             return Result.Failure<Guid>(MyError.Conflict(

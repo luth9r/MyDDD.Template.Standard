@@ -6,8 +6,7 @@ public abstract class AggregateRoot(Guid id) : Entity(id), IAuditable
     public DateTime? ModifiedAtUtc { get; set; }
 
     private readonly List<IDomainEvent> _domainEvents = new();
-
-
+    
     public IReadOnlyCollection<IDomainEvent> GetDomainEvents()
     {
         return _domainEvents.AsReadOnly();

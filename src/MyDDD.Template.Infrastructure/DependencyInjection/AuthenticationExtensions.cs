@@ -26,11 +26,11 @@ internal static class AuthenticationExtensions
 
         // HTTP
         services.AddHttpClient<IIdentityService, IdentityService>(client =>
-        {
-            var adminUrl = configuration["Keycloak:AdminUrl"] ?? configuration["Keycloak:Authority"]!;
-            client.BaseAddress = new Uri(adminUrl);
-        })
-        .AddStandardResilienceHandler();
+            {
+                var adminUrl = configuration["Keycloak:AdminUrl"] ?? configuration["Keycloak:Authority"]!;
+                client.BaseAddress = new Uri(adminUrl);
+            })
+            .AddStandardResilienceHandler();
 
         // User context
         services.AddHttpContextAccessor();

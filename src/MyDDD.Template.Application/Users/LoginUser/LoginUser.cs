@@ -2,7 +2,6 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Domain.Primitives;
-using MyDDD.Template.Application.Abstractions.Messaging;
 using MyDDD.Template.Domain.Users;
 
 namespace MyDDD.Template.Application.Users.LoginUser;

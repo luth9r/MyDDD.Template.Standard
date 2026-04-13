@@ -79,7 +79,7 @@ public class ResultTests
     public void ImplicitOperator_Should_ReturnSuccess_When_ValueIsNotNull()
     {
         // Arrange
-        string value = "test";
+        var value = "test";
 
         // Act
         Result<string> result = value;

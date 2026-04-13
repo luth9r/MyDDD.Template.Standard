@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MyDDD.Template.Application.Abstractions.Messaging;
 using MyDDD.Template.Infrastructure.Behaviors;
 using MyDDD.Template.Application.Projects.CreateProject;
 using Wolverine;

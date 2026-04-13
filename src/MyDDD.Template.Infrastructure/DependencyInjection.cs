@@ -15,7 +15,6 @@ public static class DependencyInjection
         builder.AddObservability();
 
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-        builder.Services.AddTransient<IEmailService, Email.EmailService>();
         builder.Services.AddProblemDetails();
 
         return builder;

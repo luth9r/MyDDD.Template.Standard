@@ -1,16 +1,25 @@
-using Microsoft.Extensions.Configuration;
+using System.Globalization;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+// Parameters
 var clientSecret = builder.AddParameter("KeycloakClientSecret", "my-client-secret", secret: true);
 var adminSecret = builder.AddParameter("KeycloakAdminSecret", "my-admin-secret", secret: true);
 var dbUser = builder.AddParameter("DbUser", "postgres");
 var dbPassword = builder.AddParameter("dbpassword", "password", secret: true);
 
+// Infrastructure
+var cache = builder.AddRedis("cache")
+    .WithRedisInsight();
+
+var rabbitmq = builder.AddRabbitMQ("rabbitmq")
+    .WithManagementPlugin()
+    .WithDataVolume("rabbitmq-data");
+
 var postgres = builder.AddPostgres("postgres", password: dbPassword, userName: dbUser)
+    .WithEndpoint(targetPort: 5432, port: 5432, name: "external", isProxied: false)
     .WithDataVolume("postgres-data")
-    .WithPgAdmin()
-    .WithEndpoint(targetPort: 5432, port: 5432, name: "external", isProxied: false);
+    .WithPgAdmin();
 
 var dbName = builder.Configuration["Database:Name"] ?? "myddd-db";
 var db = postgres.AddDatabase(dbName);
@@ -22,8 +31,8 @@ var seq = builder.AddContainer("seq", "datalust/seq")
     .WithEnvironment("SEQ_FIRSTRUN_NOAUTHENTICATION", "true");
 
 var mailhog = builder.AddContainer("mailhog", "mailhog/mailhog")
-    .WithHttpEndpoint(port: 8025, targetPort: 8025, name: "ui")
-    .WithEndpoint(port: 1025, targetPort: 1025, name: "smtp");
+    .WithHttpEndpoint(8025, 8025, "ui")
+    .WithEndpoint(1025, 1025, name: "smtp");
 
 var keycloak = builder.AddContainer("keycloak", "quay.io/keycloak/keycloak")
     .WithArgs("start-dev", "--import-realm")
@@ -40,15 +49,8 @@ var keycloak = builder.AddContainer("keycloak", "quay.io/keycloak/keycloak")
     .WithVolume("keycloak-data", "/opt/keycloak/data")
     .WithBindMount("./Realms", "/opt/keycloak/data/import");
 
-var cache = builder.AddRedis("cache")
-    .WithRedisInsight();
-
-var rabbitmq = builder.AddRabbitMQ("rabbitmq")
-    .WithManagementPlugin()
-    .WithDataVolume("rabbitmq-data");
-
 builder.AddProject<Projects.MyDDD_Template_Api>("api")
-    .WithHttpEndpoint(port: 5000, name: "http")
+    .WithHttpEndpoint(5000, name: "http")
     .WithReference(db)
     .WithReference(cache)
     .WithReference(rabbitmq)
@@ -71,6 +73,7 @@ builder.AddProject<Projects.MyDDD_Template_Api>("api")
     .WithEnvironment("Keycloak__Audience", "account")
     .WithEnvironment("Seq__ServerUrl", () => seq.GetEndpoint("http").Url)
     .WithEnvironment("MailHog__Smtp__Host", () => mailhog.GetEndpoint("smtp").Host)
-    .WithEnvironment("MailHog__Smtp__Port", () => mailhog.GetEndpoint("smtp").Port.ToString());
+    .WithEnvironment("MailHog__Smtp__Port",
+        () => mailhog.GetEndpoint("smtp").Port.ToString(CultureInfo.InvariantCulture));
 
 builder.Build().Run();

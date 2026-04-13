@@ -51,7 +51,7 @@ public class SyncUserIdToKeycloakTests
             .ReturnsAsync(Result.Failure(error));
 
         // Act
-        Func<Task> act = async () => await SyncUserIdToKeycloakHandler.Handle(message, _identityServiceMock.Object, default);
+        var act = async () => await SyncUserIdToKeycloakHandler.Handle(message, _identityServiceMock.Object, default);
 
         // Assert
         await act.Should().ThrowAsync<IdentitySyncException>()

@@ -2,7 +2,7 @@ namespace MyDDD.Template.Domain.Primitives;
 
 public abstract class Entity(Guid id) : IEquatable<Entity>
 {
-    public Guid Id { get; init; } = id;
+    public Guid Id { get; } = id;
 
     public bool Equals(Entity? other)
     {

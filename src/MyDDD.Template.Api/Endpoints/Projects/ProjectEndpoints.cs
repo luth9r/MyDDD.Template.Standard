@@ -1,6 +1,5 @@
 using MyDDD.Template.Api.Abstractions;
 using MyDDD.Template.Api.Extensions;
-using MyDDD.Template.Application.Abstractions.Messaging;
 using MyDDD.Template.Application.Projects.CreateProject;
 using MyDDD.Template.Application.Projects.GetProjectById;
 using MyDDD.Template.Domain.Primitives;

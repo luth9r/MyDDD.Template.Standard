@@ -19,7 +19,12 @@ public sealed class User : AggregateRoot
         LastName = lastName;
     }
 
-    public static User Create(string identityId, string email, string firstName, string lastName, Guid? explicitId = null)
+    public static User Create(
+        string identityId,
+        string email,
+        string firstName,
+        string lastName,
+        Guid? explicitId = null)
     {
         if (string.IsNullOrWhiteSpace(identityId))
         {

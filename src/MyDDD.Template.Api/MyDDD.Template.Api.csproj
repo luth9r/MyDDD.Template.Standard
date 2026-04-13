@@ -1,25 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net10.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <RootNamespace>MyDDD.Template.Api</RootNamespace>
-    </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>MyDDD.Template.Api</RootNamespace>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\MyDDD.Template.Application\MyDDD.Template.Application.csproj" />
-      <ProjectReference Include="..\MyDDD.Template.Domain\MyDDD.Template.Domain.csproj" />
-      <ProjectReference Include="..\MyDDD.Template.Infrastructure\MyDDD.Template.Infrastructure.csproj" />
-      <ProjectReference Include="..\..\infra\MyDDD.Template.ServiceDefaults\MyDDD.Template.ServiceDefaults.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyDDD.Template.Application\MyDDD.Template.Application.csproj"/>
+    <ProjectReference Include="..\MyDDD.Template.Domain\MyDDD.Template.Domain.csproj"/>
+    <ProjectReference Include="..\MyDDD.Template.Infrastructure\MyDDD.Template.Infrastructure.csproj"/>
+    <ProjectReference Include="..\..\infra\MyDDD.Template.ServiceDefaults\MyDDD.Template.ServiceDefaults.csproj"/>
+  </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Asp.Versioning.Http" Version="8.1.1" />
-      <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.1" />
-      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
-      <PackageReference Include="Scalar.AspNetCore" Version="2.13.20" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Http" Version="8.1.1"/>
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.1"/>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0"/>
+    <PackageReference Include="Scalar.AspNetCore" Version="2.13.20"/>
+  </ItemGroup>
 
 </Project>

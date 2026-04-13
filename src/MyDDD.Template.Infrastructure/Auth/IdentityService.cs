@@ -39,7 +39,7 @@ public sealed class IdentityService(
         }
 
         var result =
-            await response.Content.ReadFromJsonAsync<AccessTokenResponse>(cancellationToken: cancellationToken);
+            await response.Content.ReadFromJsonAsync<AccessTokenResponse>(cancellationToken);
         return result ?? Result.Failure<AccessTokenResponse>(MyError.Problem("Auth.NoToken", "Token empty"));
     }
 
@@ -66,7 +66,7 @@ public sealed class IdentityService(
 
         var userDoc =
             await getResponse.Content.ReadFromJsonAsync<Dictionary<string, object>>(
-                cancellationToken: cancellationToken);
+                cancellationToken);
 
         if (userDoc is null)
         {
@@ -108,7 +108,7 @@ public sealed class IdentityService(
         var response = await httpClient.PostAsync(
             $"realms/{_options.Realm}/protocol/openid-connect/token", content, ct);
 
-        var result = await response.Content.ReadFromJsonAsync<AccessTokenResponse>(cancellationToken: ct);
+        var result = await response.Content.ReadFromJsonAsync<AccessTokenResponse>(ct);
         return result!.AccessToken;
     }
 }

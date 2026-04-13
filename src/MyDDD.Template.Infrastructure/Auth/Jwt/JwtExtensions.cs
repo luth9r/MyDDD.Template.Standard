@@ -10,12 +10,12 @@ internal static class JwtExtensions
         var jwt = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);
 
         return new UserJwtInfo(
-            IdentityId: jwt.Subject,
-            Email: jwt.Claims.FirstOrDefault(c => c.Type == "email")?.Value ?? string.Empty,
-            IsEmailVerified: jwt.Claims.FirstOrDefault(c => c.Type == "email_verified")?.Value == "true",
-            InternalUserId: Guid.TryParse(jwt.Claims.FirstOrDefault(c => c.Type == "userId")?.Value, out var id) ? id : null,
-            FirstName: jwt.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value ?? string.Empty,
-            LastName: jwt.Claims.FirstOrDefault(c => c.Type == "family_name")?.Value ?? string.Empty
+            jwt.Subject,
+            jwt.Claims.FirstOrDefault(c => c.Type == "email")?.Value ?? string.Empty,
+            jwt.Claims.FirstOrDefault(c => c.Type == "email_verified")?.Value == "true",
+            Guid.TryParse(jwt.Claims.FirstOrDefault(c => c.Type == "userId")?.Value, out var id) ? id : null,
+            jwt.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value ?? string.Empty,
+            jwt.Claims.FirstOrDefault(c => c.Type == "family_name")?.Value ?? string.Empty
         );
     }
 }

@@ -2,21 +2,21 @@
 using MyDDD.Template.Application;
 using MyDDD.Template.Infrastructure;
 using Serilog;
-using MyDDD.Template.Api.Middleware;
+
+
 try
 {
     Log.Information("Starting web application");
 
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.AddServiceDefaults();
-
-    builder.AddSerilogConfig();
-
-    builder.AddInfrastructure();
+    builder.AddServiceDefaults()
+        .AddSerilogConfig()
+        .AddInfrastructure();
 
     builder.Services
         .AddSwaggerDocumentation(builder.Configuration)
+        .ConfigureJsonOptions()
         .AddApplication()
         .AddEndpoints();
 
@@ -38,7 +38,6 @@ try
     }
 
     app.UseExceptionHandler();
-
     app.UseAuthentication();
     app.UseAuthorization();
 

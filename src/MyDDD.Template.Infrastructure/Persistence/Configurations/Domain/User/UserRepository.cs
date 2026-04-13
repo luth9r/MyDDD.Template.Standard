@@ -11,13 +11,17 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
             .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
     }
 
-    public async Task<Template.Domain.Users.User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+    public async Task<Template.Domain.Users.User?> GetByEmailAsync(
+        string email,
+        CancellationToken cancellationToken = default)
     {
         return await context.Users
             .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
 
-    public async Task<Template.Domain.Users.User?> GetByIdentityIdAsync(string identityId, CancellationToken cancellationToken = default)
+    public async Task<Template.Domain.Users.User?> GetByIdentityIdAsync(
+        string identityId,
+        CancellationToken cancellationToken = default)
     {
         return await context.Users
             .FirstOrDefaultAsync(u => u.IdentityId == identityId, cancellationToken);

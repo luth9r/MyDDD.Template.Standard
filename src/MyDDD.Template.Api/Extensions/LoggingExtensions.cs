@@ -5,7 +5,7 @@ namespace MyDDD.Template.Api.Extensions;
 
 internal static class LoggingExtensions
 {
-    public static void AddSerilogConfig(this IHostApplicationBuilder builder)
+    public static IHostApplicationBuilder AddSerilogConfig(this IHostApplicationBuilder builder)
     {
         builder.Services.AddSerilog((ctx, cfg) => cfg
                 .ReadFrom.Configuration(builder.Configuration)
@@ -14,7 +14,9 @@ internal static class LoggingExtensions
                 .WriteTo.Console(formatProvider: System.Globalization.CultureInfo.InvariantCulture)
                 .WriteTo.Seq(builder.Configuration["Seq:ServerUrl"] ?? "http://localhost:5341",
                     formatProvider: System.Globalization.CultureInfo.InvariantCulture),
-            preserveStaticLogger: false,
-            writeToProviders: true);
+            false,
+            true);
+
+        return builder;
     }
 }

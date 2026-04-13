@@ -44,7 +44,6 @@ public class CreateProjectTests
         _projectRepositoryMock.Verify(
             x => x.Add(It.Is<Project>(p => p.Name == command.Name && p.UserId == userId)),
             Times.Once);
-
     }
 
     [Fact]
@@ -53,7 +52,7 @@ public class CreateProjectTests
         // Arrange
         var command = new CreateProjectCommand("Existing Project");
         var existingProject = Project.Create(command.Name, Guid.NewGuid());
-        
+
         _projectRepositoryMock.Setup(x => x.GetByNameAsync(command.Name, It.IsAny<CancellationToken>()))
             .ReturnsAsync(existingProject);
 

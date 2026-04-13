@@ -28,7 +28,8 @@ internal static class PersistenceExtensions
 
         builder.Services.AddDbContextWithWolverineIntegration<ApplicationDbContext>(opts =>
         {
-            opts.UseNpgsql(connectionString);
+            opts.UseNpgsql(connectionString)
+                .UseSnakeCaseNamingConvention();
             opts.AddInterceptors(auditableInterceptor);
         });
 

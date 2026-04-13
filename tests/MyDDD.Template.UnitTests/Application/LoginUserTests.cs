@@ -2,7 +2,6 @@ using Moq;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using MyDDD.Template.Application.Abstractions;
-using MyDDD.Template.Application.Abstractions.Messaging;
 using MyDDD.Template.Application.Users.LoginUser;
 using MyDDD.Template.Domain.Primitives;
 using MyDDD.Template.Domain.Users;
@@ -23,8 +22,10 @@ public class LoginUserTests
         _loggerMock = new Mock<ILogger<LoginUserCommand>>();
     }
 
-    private static AccessTokenResponse CreateToken() =>
-        new AccessTokenResponse("access", "refresh", 3600, 3600, "Bearer", "id", "session", "scope");
+    private static AccessTokenResponse CreateToken()
+    {
+        return new AccessTokenResponse("access", "refresh", 3600, 3600, "Bearer", "id", "session", "scope");
+    }
 
     [Fact]
     public async Task Handle_Should_ReturnFailure_When_LoginAsyncFails()

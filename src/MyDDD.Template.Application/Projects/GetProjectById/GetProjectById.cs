@@ -1,5 +1,4 @@
 using MyDDD.Template.Application.Abstractions;
-using MyDDD.Template.Application.Abstractions.Messaging;
 using MyDDD.Template.Domain.Primitives;
 using MyDDD.Template.Domain.Projects;
 

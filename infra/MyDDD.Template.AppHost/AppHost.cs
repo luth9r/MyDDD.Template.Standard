@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var clientSecret = builder.AddParameter("KeycloakClientSecret", "my-client-secret", secret: true);
@@ -10,7 +12,8 @@ var postgres = builder.AddPostgres("postgres", password: dbPassword, userName: d
     .WithPgAdmin()
     .WithEndpoint(targetPort: 5432, port: 5432, name: "external", isProxied: false);
 
-var db = postgres.AddDatabase("myddd-db");
+var dbName = builder.Configuration["Database:Name"] ?? "myddd-db";
+var db = postgres.AddDatabase(dbName);
 
 var seq = builder.AddContainer("seq", "datalust/seq")
     .WithHttpEndpoint(targetPort: 80, port: 5341, name: "http")

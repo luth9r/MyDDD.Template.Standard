@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 using Microsoft.Extensions.Options;
 using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Domain.Primitives;
+using MyDDD.Template.Infrastructure.Auth.Jwt;
 
 namespace MyDDD.Template.Infrastructure.Auth;
 
@@ -13,59 +14,14 @@ public sealed class IdentityService(
 {
     private readonly KeycloakOptions _options = options.Value;
 
-    public async Task<Result<string>> RegisterAsync(
+    public async Task<Result<AccessTokenResponse>> LoginAsync(
         string email,
         string password,
-        string firstName,
-        string lastName,
-        Guid internalUserId,
         CancellationToken cancellationToken = default)
-    {
-        var adminToken = await GetAdminTokenAsync(cancellationToken);
-
-        var userRequest = new
-        {
-            username = email,
-            email = email,
-            firstName = firstName,
-            lastName = lastName,
-            emailVerified = false,
-            enabled = true,
-            attributes = new Dictionary<string, string[]>
-            {
-                ["userId"] = [internalUserId.ToString()],
-            },
-            credentials = new[] { new { type = "password", value = password, temporary = false } },
-        };
-
-        var request = new HttpRequestMessage(HttpMethod.Post,
-            $"admin/realms/{_options.Realm}/users");
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", adminToken);
-        request.Content = JsonContent.Create(userRequest);
-
-        var response = await httpClient.SendAsync(request, cancellationToken);
-
-        if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
-        {
-            return Result.Failure<string>(Error.Conflict("Keycloak.UserExists", "User already exists"));
-        }
-
-        if (!response.IsSuccessStatusCode)
-        {
-            return Result.Failure<string>(Error.Failure("Keycloak.Error", await response.Content.ReadAsStringAsync(cancellationToken)));
-        }
-
-        var identityId = response.Headers.Location?.Segments.Last();
-        return string.IsNullOrEmpty(identityId)
-            ? Result.Failure<string>(Error.Problem("Keycloak.NoId", "ID not found"))
-            : Result.Success(identityId);
-    }
-
-    public async Task<Result<AccessTokenResponse>> LoginAsync(string email, string password, CancellationToken cancellationToken = default)
     {
         var content = new FormUrlEncodedContent(new Dictionary<string, string>
         {
-            ["client_id"]     = _options.ClientId,
+            ["client_id"] = _options.ClientId,
             ["client_secret"] = _options.ClientSecret,
             ["grant_type"] = "password",
             ["username"] = email,
@@ -78,32 +34,66 @@ public sealed class IdentityService(
 
         if (!response.IsSuccessStatusCode)
         {
-            return Result.Failure<AccessTokenResponse>(Error.Failure("Auth.InvalidCredentials", "Invalid email or password"));
+            return Result.Failure<AccessTokenResponse>(MyError.Failure("Auth.InvalidCredentials",
+                "Invalid email or password"));
         }
 
-        var result = await response.Content.ReadFromJsonAsync<AccessTokenResponse>(cancellationToken: cancellationToken);
-        return result ?? Result.Failure<AccessTokenResponse>(Error.Problem("Auth.NoToken", "Token empty"));
+        var result =
+            await response.Content.ReadFromJsonAsync<AccessTokenResponse>(cancellationToken: cancellationToken);
+        return result ?? Result.Failure<AccessTokenResponse>(MyError.Problem("Auth.NoToken", "Token empty"));
     }
 
-    public async Task<Result> SendVerificationEmailAsync(string identityId, CancellationToken cancellationToken = default)
+    public UserJwtInfo GetUserJwtInfo(AccessTokenResponse token)
+    {
+        return token.AccessToken.GetUserInfo();
+    }
+
+    public async Task<Result> UpdateUserAttributesAsync(
+        string identityId,
+        Dictionary<string, string[]> attributes,
+        CancellationToken cancellationToken = default)
     {
         var adminToken = await GetAdminTokenAsync(cancellationToken);
 
-        var request = new HttpRequestMessage(HttpMethod.Put,
-            $"admin/realms/{_options.Realm}/users/{identityId}/execute-actions-email");
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", adminToken);
+        var getRequest = new HttpRequestMessage(HttpMethod.Get, $"admin/realms/{_options.Realm}/users/{identityId}");
+        getRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", adminToken);
 
-        // Keycloak expects a JSON array of strings for the required actions
-        request.Content = JsonContent.Create(new[] { "VERIFY_EMAIL" });
-
-        var response = await httpClient.SendAsync(request, cancellationToken);
-
-        if (!response.IsSuccessStatusCode)
+        var getResponse = await httpClient.SendAsync(getRequest, cancellationToken);
+        if (!getResponse.IsSuccessStatusCode)
         {
-            return Result.Failure(Error.Failure("Keycloak.Error", await response.Content.ReadAsStringAsync(cancellationToken)));
+            return Result.Failure(MyError.Failure("Keycloak.FetchError", "Could not fetch user before update"));
         }
 
-        return Result.Success();
+        var userDoc =
+            await getResponse.Content.ReadFromJsonAsync<Dictionary<string, object>>(
+                cancellationToken: cancellationToken);
+
+        if (userDoc is null)
+        {
+            return Result.Failure(MyError.Problem("Keycloak.EmptyUser", "User data is empty"));
+        }
+
+        var existingAttributes = userDoc.TryGetValue("attributes", out var value)
+            ? System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string[]>>(value.ToString()!)
+            : new Dictionary<string, string[]>();
+
+        foreach (var attr in attributes)
+        {
+            existingAttributes![attr.Key] = attr.Value;
+        }
+
+        userDoc["attributes"] = existingAttributes!;
+
+        var putRequest = new HttpRequestMessage(HttpMethod.Put, $"admin/realms/{_options.Realm}/users/{identityId}");
+        putRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", adminToken);
+        putRequest.Content = JsonContent.Create(userDoc);
+
+        var putResponse = await httpClient.SendAsync(putRequest, cancellationToken);
+
+        return putResponse.IsSuccessStatusCode
+            ? Result.Success()
+            : Result.Failure(MyError.Failure("Keycloak.UpdateError",
+                $"Failed to PUT user. Status: {putResponse.StatusCode}"));
     }
 
     private async Task<string> GetAdminTokenAsync(CancellationToken ct)

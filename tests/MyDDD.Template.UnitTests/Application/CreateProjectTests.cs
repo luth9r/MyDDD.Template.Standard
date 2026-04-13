@@ -12,19 +12,12 @@ namespace MyDDD.Template.UnitTests.Application;
 public class CreateProjectTests
 {
     private readonly Mock<IProjectRepository> _projectRepositoryMock;
-    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly Mock<IUserContext> _userContextMock;
-    private readonly CreateProjectCommandHandler _handler;
 
     public CreateProjectTests()
     {
         _projectRepositoryMock = new Mock<IProjectRepository>();
-        _unitOfWorkMock = new Mock<IUnitOfWork>();
         _userContextMock = new Mock<IUserContext>();
-        _handler = new CreateProjectCommandHandler(
-            _projectRepositoryMock.Object,
-            _unitOfWorkMock.Object,
-            _userContextMock.Object);
     }
 
     [Fact]
@@ -33,12 +26,16 @@ public class CreateProjectTests
         // Arrange
         var command = new CreateProjectCommand("New Project");
         var userId = Guid.NewGuid();
-        _userContextMock.Setup(x => x.UserId).Returns(userId);
+        _userContextMock.Setup(x => x.GetUserIdAsync(It.IsAny<CancellationToken>())).ReturnsAsync(userId);
         _projectRepositoryMock.Setup(x => x.GetByNameAsync(command.Name, It.IsAny<CancellationToken>()))
             .ReturnsAsync((Project?)null);
 
         // Act
-        var result = await _handler.Handle(command, default);
+        var result = await CreateProjectCommandHandler.Handle(
+            command,
+            _projectRepositoryMock.Object,
+            _userContextMock.Object,
+            default);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
@@ -48,9 +45,6 @@ public class CreateProjectTests
             x => x.Add(It.Is<Project>(p => p.Name == command.Name && p.UserId == userId)),
             Times.Once);
 
-        _unitOfWorkMock.Verify(
-            x => x.SaveChangesAsync(It.IsAny<CancellationToken>()),
-            Times.Once);
     }
 
     [Fact]
@@ -64,13 +58,16 @@ public class CreateProjectTests
             .ReturnsAsync(existingProject);
 
         // Act
-        var result = await _handler.Handle(command, default);
+        var result = await CreateProjectCommandHandler.Handle(
+            command,
+            _projectRepositoryMock.Object,
+            _userContextMock.Object,
+            default);
 
         // Assert
         result.IsFailure.Should().BeTrue();
         result.Error.Code.Should().Be("Project.DuplicateName");
 
         _projectRepositoryMock.Verify(x => x.Add(It.IsAny<Project>()), Times.Never);
-        _unitOfWorkMock.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 }

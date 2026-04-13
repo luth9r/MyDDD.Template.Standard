@@ -7,7 +7,7 @@ using MyDDD.Template.Domain.Projects;
 
 namespace MyDDD.Template.Application.Projects.CreateProject;
 
-public sealed record CreateProjectCommand(string Name) : ICommand<Guid>;
+public sealed record CreateProjectCommand(string Name);
 
 public sealed class CreateProjectCommandValidator : AbstractValidator<CreateProjectCommand>
 {
@@ -19,28 +19,28 @@ public sealed class CreateProjectCommandValidator : AbstractValidator<CreateProj
     }
 }
 
-internal sealed class CreateProjectCommandHandler(
-    IProjectRepository projectRepository,
-    IUnitOfWork unitOfWork,
-    IUserContext userContext) : ICommandHandler<CreateProjectCommand, Guid>
+[Wolverine.Attributes.Transactional]
+public static class CreateProjectCommandHandler
 {
-    public async Task<Result<Guid>> Handle(
+    public static async Task<Result<Guid>> Handle(
         CreateProjectCommand request,
+        IProjectRepository projectRepository,
+        IUserContext userContext,
         CancellationToken cancellationToken)
     {
 
         if (await projectRepository.GetByNameAsync(request.Name, cancellationToken) is not null)
         {
-            return Result.Failure<Guid>(Error.Conflict(
+            return Result.Failure<Guid>(MyError.Conflict(
                 "Project.DuplicateName",
                 $"Project with name '{request.Name}' already exists"));
         }
 
-        var project = Project.Create(request.Name, userContext.UserId);
+        var userId = await userContext.GetUserIdAsync(cancellationToken);
+
+        var project = Project.Create(request.Name, userId);
 
         projectRepository.Add(project);
-
-        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(project.Id);
     }

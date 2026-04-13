@@ -27,10 +27,10 @@
   "oauth2DevicePollingInterval": 5,
   "enabled": true,
   "sslRequired": "external",
-  "registrationAllowed": false,
+  "registrationAllowed": true,
   "registrationEmailAsUsername": false,
   "rememberMe": false,
-  "verifyEmail": false,
+  "verifyEmail": true,
   "loginWithEmailAllowed": true,
   "duplicateEmailsAllowed": false,
   "resetPasswordAllowed": false,
@@ -807,7 +807,7 @@
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
+      "clientAuthenticatorType": "public",
       "secret": "**********",
       "redirectUris": [
         "http://localhost:5000/*"
@@ -822,7 +822,7 @@
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
-      "publicClient": false,
+      "publicClient": true,
       "frontchannelLogout": true,
       "protocol": "openid-connect",
       "attributes": {
@@ -1644,7 +1644,7 @@
     "timeout": "10000",
     "port": "1025",
     "replyTo": "",
-    "host": "host.docker.internal",
+    "host": "mailhog",
     "from": "no-reply@myddd-template.com",
     "fromDisplayName": "MyDDD Template",
     "connectionTimeout": "10000"

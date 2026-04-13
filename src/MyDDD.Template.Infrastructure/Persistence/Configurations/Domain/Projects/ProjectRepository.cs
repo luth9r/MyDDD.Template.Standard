@@ -3,7 +3,7 @@ using MyDDD.Template.Domain.Projects;
 
 namespace MyDDD.Template.Infrastructure.Persistence.Configurations.Domain.Projects;
 
-internal sealed class ProjectRepository(ApplicationDbContext context) : IProjectRepository
+public sealed class ProjectRepository(ApplicationDbContext context) : IProjectRepository
 {
     public async Task<Project?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {

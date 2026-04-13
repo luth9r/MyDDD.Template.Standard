@@ -24,6 +24,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\infra\MyDDD.Template.AppHost\MyDDD.Template.AppHost.csproj" />
+    <ProjectReference Include="..\..\infra\MyDDD.Template.ServiceDefaults\MyDDD.Template.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\src\MyDDD.Template.Application\MyDDD.Template.Application.csproj" />
   </ItemGroup>
 
 </Project>

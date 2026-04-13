@@ -5,7 +5,8 @@ using MyDDD.Template.Api.Abstractions;
 using MyDDD.Template.Api.Extensions;
 using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Application.Users.LoginUser;
-using MyDDD.Template.Application.Users.RegisterUser;
+using MyDDD.Template.Domain.Primitives;
+using Wolverine;
 
 namespace MyDDD.Template.Api.Endpoints.Users;
 
@@ -17,41 +18,15 @@ public class UserEndpoints : IEndpoint
             .WithTags("Users")
             .AllowAnonymous();
 
-        group.MapPost("register", Register);
-
         group.MapPost("login", Login);
     }
 
-    private static async Task<IResult> Register(
-        [FromBody] RegisterUserRequest request,
-        [FromServices] ISender sender,
-        CancellationToken cancellationToken)
-    {
-        var command = new RegisterUserCommand(
-            request.Email,
-            request.Password,
-            request.FirstName,
-            request.LastName);
-
-        var result = await sender.Send(command, cancellationToken);
-
-        return result.IsSuccess
-            ? Results.Ok(result.Value)
-            : result.ToProblemDetails();
-    }
-
-    private sealed record RegisterUserRequest(
-        string Email,
-        string Password,
-        string FirstName,
-        string LastName);
-
     private static async Task<IResult> Login(
         [FromBody] LoginUserCommand command,
-        ISender sender,
+        IMessageBus bus,
         CancellationToken cancellationToken)
     {
-        var result = await sender.Send(command, cancellationToken);
+        var result = await bus.InvokeAsync<Result<LoginResponse>>(command, cancellationToken);
 
         return result.IsSuccess
             ? Results.Ok(result.Value)

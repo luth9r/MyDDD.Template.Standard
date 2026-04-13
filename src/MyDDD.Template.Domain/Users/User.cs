@@ -19,13 +19,8 @@ public sealed class User : AggregateRoot
         LastName = lastName;
     }
 
-    public static User Create(Guid id, string identityId, string email, string firstName, string lastName)
+    public static User Create(string identityId, string email, string firstName, string lastName, Guid? explicitId = null)
     {
-        if (id == Guid.Empty)
-        {
-            throw new ArgumentException("Id cannot be empty", nameof(id));
-        }
-
         if (string.IsNullOrWhiteSpace(identityId))
         {
             throw new ArgumentException("IdentityId cannot be empty", nameof(identityId));
@@ -36,7 +31,7 @@ public sealed class User : AggregateRoot
             throw new ArgumentException("Email cannot be empty", nameof(email));
         }
 
-        var user = new User(id, identityId, email, firstName, lastName);
+        var user = new User(explicitId ?? Guid.NewGuid(), identityId, email, firstName, lastName);
 
         user.RaiseDomainEvent(new UserRegisteredDomainEvent(user.Id, user.IdentityId, user.Email));
 

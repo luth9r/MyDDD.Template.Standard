@@ -10,15 +10,6 @@ public static class DependencyInjection
     {
         var assembly = typeof(DependencyInjection).Assembly;
 
-        services.AddMediatR(config =>
-        {
-            config.RegisterServicesFromAssembly(assembly);
-
-            config.AddOpenBehavior(typeof(Behaviors.UserSynchronizationBehavior<,>));
-            config.AddOpenBehavior(typeof(Behaviors.ValidationBehavior<,>));
-            config.AddOpenBehavior(typeof(Behaviors.QueryCachingBehavior<,>));
-        });
-
         services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
 
         return services;

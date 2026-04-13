@@ -5,11 +5,7 @@ using MyDDD.Template.Domain.Projects;
 
 namespace MyDDD.Template.Application.Projects.GetProjectById;
 
-public sealed record GetProjectByIdQuery(Guid Id) : ICachedQuery<ProjectResponse>
-{
-    public string CacheKey => $"project-{Id}";
-    public TimeSpan? Expiration => TimeSpan.FromMinutes(5);
-}
+public sealed record GetProjectByIdQuery(Guid Id);
 
 public sealed record ProjectResponse(Guid Id, string Name)
 {
@@ -19,20 +15,21 @@ public sealed record ProjectResponse(Guid Id, string Name)
     }
 }
 
-internal sealed class GetProjectByIdQueryHandler(
-    IProjectRepository projectRepository,
-    IUserContext userContext)
-    : IQueryHandler<GetProjectByIdQuery, ProjectResponse>
+public static class GetProjectByIdQueryHandler
 {
-    public async Task<Result<ProjectResponse>> Handle(
+    public static async Task<Result<ProjectResponse>> Handle(
         GetProjectByIdQuery request,
+        IProjectRepository projectRepository,
+        IUserContext userContext,
         CancellationToken cancellationToken)
     {
         var project = await projectRepository.GetByIdAsync(request.Id, cancellationToken);
 
-        if (project is null || project.UserId != userContext.UserId)
+        var userId = await userContext.GetUserIdAsync(cancellationToken);
+
+        if (project is null || project.UserId != userId)
         {
-            return Result.Failure<ProjectResponse>(Error.NotFound(
+            return Result.Failure<ProjectResponse>(MyError.NotFound(
                 "Project.NotFound",
                 $"Project with Id '{request.Id}' was not found."));
         }

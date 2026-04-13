@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -21,13 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\MyDDD.Template.Domain\MyDDD.Template.Domain.csproj"/>
-    <ProjectReference Include="..\..\src\MyDDD.Template.Application\MyDDD.Template.Application.csproj"/>
-    <ProjectReference Include="..\..\src\MyDDD.Template.Infrastructure\MyDDD.Template.Infrastructure.csproj"/>
   </ItemGroup>
 
 </Project>

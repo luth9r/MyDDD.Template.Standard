@@ -43,11 +43,8 @@ Thumbs.db
 
 ## Docker
 .dockerignore
-# Don't ignore the file itself, but maybe temporary docker things if any
-# Docker artifacts
 .docker/
 
 ## Application Secrets
 appsettings.Development.json
-# Note: Keep appsettings.json, but ignore development secrets if you use a separate file
-# secrets.json
+

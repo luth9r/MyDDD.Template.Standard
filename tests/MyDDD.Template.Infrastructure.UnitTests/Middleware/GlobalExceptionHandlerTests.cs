@@ -9,7 +9,7 @@ using MyDDD.Template.Application.Exceptions;
 using MyDDD.Template.Domain.Primitives;
 using Xunit;
 
-namespace MyDDD.Template.UnitTests.Middleware;
+namespace MyDDD.Template.Infrastructure.UnitTests.Middleware;
 
 public class GlobalExceptionHandlerTests
 {

@@ -6,7 +6,7 @@ using MyDDD.Template.Application.Users.LoginUser;
 using MyDDD.Template.Domain.Primitives;
 using Xunit;
 
-namespace MyDDD.Template.UnitTests.Application;
+namespace MyDDD.Template.Application.UnitTests.Users;
 
 public class SyncUserIdToKeycloakTests
 {

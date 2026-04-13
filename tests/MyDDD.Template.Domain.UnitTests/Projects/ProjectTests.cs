@@ -3,7 +3,7 @@ using MyDDD.Template.Domain.Projects;
 using MyDDD.Template.Domain.Projects.DomainEvents;
 using Xunit;
 
-namespace MyDDD.Template.UnitTests.Domain;
+namespace MyDDD.Template.Domain.UnitTests.Projects;
 
 public class ProjectTests
 {

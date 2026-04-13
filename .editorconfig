@@ -1,7 +1,3 @@
-##########################################
-# Common Settings
-##########################################
-
 # This file is the top-most EditorConfig file
 root = true
 
@@ -12,10 +8,6 @@ indent_style = space
 indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
-
-##########################################
-# File Extension Settings
-##########################################
 
 # Visual Studio Solution Files
 [*.sln]
@@ -57,19 +49,9 @@ end_of_line = lf
 [Makefile]
 indent_style = tab
 
-##########################################
-# Default .NET Code Style Severities
-# https://docs.microsoft.com/dotnet/fundamentals/code-analysis/configuration-options#scope
-##########################################
-
 [*.{cs,csx,cake,vb,vbx}]
 # Default Severity for all .NET Code Style rules below
 dotnet_analyzer_diagnostic.severity = warning
-
-##########################################
-# Language Rules
-# https://docs.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/language-rules
-##########################################
 
 # .NET Style Rules
 # https://docs.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/language-rules#net-style-rules
@@ -112,7 +94,6 @@ dotnet_style_null_propagation = true:warning
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
 # File header preferences
 # file_header_template = <copyright file="{fileName}" company="PROJECT-AUTHOR">\n© PROJECT-AUTHOR\n</copyright>
-# If you use StyleCop, you'll need to disable SA1636: File header copyright text should match.
 # dotnet_diagnostic.SA1636.severity = none
 # Undocumented
 dotnet_style_operator_placement_when_wrapping = end_of_line:warning
@@ -165,11 +146,6 @@ csharp_prefer_static_local_function = true:warning
 csharp_style_namespace_declarations = file_scoped:warning
 dotnet_style_require_accessibility_modifiers = false:suggestion
 
-##########################################
-# Unnecessary Code Rules
-# https://docs.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/unnecessary-code-rules
-##########################################
-
 # .NET Unnecessary code rules
 [*.{cs,csx,cake,vb,vbx}]
 dotnet_code_quality_unused_parameters = all:warning
@@ -181,11 +157,6 @@ csharp_style_unused_value_expression_statement_preference = discard_variable:sug
 dotnet_diagnostic.IDE0058.severity = suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:suggestion
 dotnet_diagnostic.IDE0059.severity = suggestion
-
-##########################################
-# Formatting Rules
-# https://docs.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/formatting-rules
-##########################################
 
 # .NET formatting rules
 # https://docs.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/formatting-rules#net-formatting-rules
@@ -252,17 +223,7 @@ resharper_csharp_wrap_before_declaration_lpar = false
 resharper_csharp_wrap_before_declaration_rpar = false
 resharper_csharp_wrap_after_declaration_lpar = true
 
-##########################################
-# .NET Naming Rules
-# https://docs.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/naming-rules
-##########################################
-
 [*.{cs,csx,cake,vb,vbx}]
-
-##########################################
-# Styles
-##########################################
-
 # camel_case_style - Define the camelCase style
 dotnet_naming_style.camel_case_style.capitalization = camel_case
 dotnet_naming_style.camel_case_underscore_style.capitalization = camel_case
@@ -285,12 +246,6 @@ dotnet_naming_style.disallowed_style.required_suffix = ____RULE_VIOLATION____
 dotnet_naming_style.internal_error_style.capitalization = pascal_case
 dotnet_naming_style.internal_error_style.required_prefix = ____INTERNAL_ERROR____
 dotnet_naming_style.internal_error_style.required_suffix = ____INTERNAL_ERROR____
-
-##########################################
-# .NET Design Guideline Field Naming Rules
-# Naming rules for fields follow the .NET Framework design guidelines
-# https://docs.microsoft.com/dotnet/standard/design-guidelines/index
-##########################################
 
 # All public/protected/protected_internal constant fields must be PascalCase
 # https://docs.microsoft.com/dotnet/standard/design-guidelines/field
@@ -317,13 +272,6 @@ dotnet_naming_symbols.other_public_protected_fields_group.applicable_kinds = fie
 dotnet_naming_rule.other_public_protected_fields_disallowed_rule.symbols = other_public_protected_fields_group
 dotnet_naming_rule.other_public_protected_fields_disallowed_rule.style = disallowed_style
 dotnet_naming_rule.other_public_protected_fields_disallowed_rule.severity = error
-
-##########################################
-# StyleCop Field Naming Rules
-# Naming rules for fields follow the StyleCop analyzers
-# This does not override any rules using disallowed_style above
-# https://github.com/DotNetAnalyzers/StyleCopAnalyzers
-##########################################
 
 # All constant fields must be PascalCase
 # https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1303.md
@@ -376,22 +324,6 @@ dotnet_naming_rule.sanity_check_uncovered_field_case_rule.symbols = sanity_check
 dotnet_naming_rule.sanity_check_uncovered_field_case_rule.style = internal_error_style
 dotnet_naming_rule.sanity_check_uncovered_field_case_rule.severity = error
 
-
-##########################################
-# Other Naming Rules
-##########################################
-
-# All of the following must be PascalCase:
-# - Namespaces
-#   https://docs.microsoft.com/dotnet/standard/design-guidelines/names-of-namespaces
-#   https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1300.md
-# - Classes and Enumerations
-#   https://docs.microsoft.com/dotnet/standard/design-guidelines/names-of-classes-structs-and-interfaces
-#   https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1300.md
-# - Delegates
-#   https://docs.microsoft.com/dotnet/standard/design-guidelines/names-of-classes-structs-and-interfaces#names-of-common-types
-# - Constructors, Properties, Events, Methods
-#   https://docs.microsoft.com/dotnet/standard/design-guidelines/names-of-type-members
 dotnet_naming_symbols.element_group.applicable_kinds = namespace, class, enum, struct, delegate, event, method, property
 dotnet_naming_rule.element_rule.symbols = element_group
 dotnet_naming_rule.element_rule.style = pascal_case_style

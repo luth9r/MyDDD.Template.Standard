@@ -2,7 +2,7 @@ using FluentAssertions;
 using MyDDD.Template.Domain.Primitives;
 using Xunit;
 
-namespace MyDDD.Template.UnitTests.Primitives;
+namespace MyDDD.Template.Domain.UnitTests.Primitives;
 
 public class ResultTests
 {

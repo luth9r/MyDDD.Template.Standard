@@ -11,7 +11,7 @@ using MyDDD.Template.Infrastructure.Persistence.Configurations.Domain.User;
 using MyDDD.Template.Infrastructure.Persistence.Interceptors;
 using Wolverine.EntityFrameworkCore;
 
-namespace MyDDD.Template.Infrastructure;
+namespace MyDDD.Template.Infrastructure.Extensions;
 
 internal static class PersistenceExtensions
 {

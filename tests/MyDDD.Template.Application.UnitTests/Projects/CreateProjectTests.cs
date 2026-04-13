@@ -7,7 +7,7 @@ using MyDDD.Template.Domain.Primitives;
 using MyDDD.Template.Domain.Projects;
 using Xunit;
 
-namespace MyDDD.Template.UnitTests.Application;
+namespace MyDDD.Template.Application.UnitTests.Projects;
 
 public class CreateProjectTests
 {

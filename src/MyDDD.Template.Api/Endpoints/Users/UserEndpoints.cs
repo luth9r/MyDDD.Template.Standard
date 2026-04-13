@@ -1,9 +1,6 @@
-using MediatR;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using MyDDD.Template.Api.Abstractions;
 using MyDDD.Template.Api.Extensions;
-using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Application.Users.LoginUser;
 using MyDDD.Template.Domain.Primitives;
 using Wolverine;

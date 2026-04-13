@@ -5,7 +5,7 @@ using MyDDD.Template.Application.Projects.GetProjectById;
 using MyDDD.Template.Domain.Projects;
 using Xunit;
 
-namespace MyDDD.Template.UnitTests.Application;
+namespace MyDDD.Template.Application.UnitTests.Projects;
 
 public class GetProjectByIdTests
 {

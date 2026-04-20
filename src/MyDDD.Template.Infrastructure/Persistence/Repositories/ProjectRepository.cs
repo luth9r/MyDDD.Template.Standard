@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyDDD.Template.Domain.Projects;
 
-namespace MyDDD.Template.Infrastructure.Persistence.Configurations.Domain.Projects;
+namespace MyDDD.Template.Infrastructure.Persistence.Repositories;
 
 public sealed class ProjectRepository(ApplicationDbContext context) : IProjectRepository
 {

@@ -4,9 +4,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Moq;
 using FluentAssertions;
-using MyDDD.Template.Api.Middleware;
 using MyDDD.Template.Application.Exceptions;
 using MyDDD.Template.Domain.Primitives;
+using MyDDD.Template.Infrastructure.Middleware;
 using Xunit;
 
 namespace MyDDD.Template.Infrastructure.UnitTests.Middleware;

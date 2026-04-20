@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MyDDD.Template.Application.Exceptions;
 
-namespace MyDDD.Template.Api.Middleware;
+namespace MyDDD.Template.Infrastructure.Middleware;
 
 public sealed partial class GlobalExceptionHandler(
     ILogger<GlobalExceptionHandler> logger,

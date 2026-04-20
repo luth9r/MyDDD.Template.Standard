@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MyDDD.Template.Api.Middleware;
+using MyDDD.Template.Infrastructure.Middleware;
 using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Infrastructure.Extensions;
 

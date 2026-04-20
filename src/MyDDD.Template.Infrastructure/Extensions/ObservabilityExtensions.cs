@@ -11,6 +11,7 @@ internal static class ObservabilityExtensions
         builder.Services.AddOpenTelemetry()
             .WithTracing(tracing => tracing
                 .AddSource("MyDDD.Template.Api")
+                .AddSource("Wolverine")
                 .AddEntityFrameworkCoreInstrumentation());
 
         return builder;

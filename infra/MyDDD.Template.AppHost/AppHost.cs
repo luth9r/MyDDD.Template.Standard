@@ -1,25 +1,26 @@
 using System.Globalization;
+using Microsoft.Extensions.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
 // Parameters
 var clientSecret = builder.AddParameter("KeycloakClientSecret", "my-client-secret", secret: true);
 var adminSecret = builder.AddParameter("KeycloakAdminSecret", "my-admin-secret", secret: true);
-var dbUser = builder.AddParameter("DbUser", "postgres");
+var dbUser = builder.AddParameter("DbUser", "user");
 var dbPassword = builder.AddParameter("dbpassword", "password", secret: true);
 
 // Infrastructure
+var isTesting = builder.Environment.IsEnvironment("Testing");
 var cache = builder.AddRedis("cache")
     .WithRedisInsight();
 
 var rabbitmq = builder.AddRabbitMQ("rabbitmq")
-    .WithManagementPlugin()
-    .WithDataVolume("rabbitmq-data");
+    .WithManagementPlugin();
+if (!isTesting) rabbitmq.WithDataVolume("rabbitmq-data");
 
 var postgres = builder.AddPostgres("postgres", password: dbPassword, userName: dbUser)
-    .WithEndpoint(targetPort: 5432, port: 5432, name: "external", isProxied: false)
-    .WithDataVolume("postgres-data")
-    .WithPgAdmin();
+    .WithEndpoint(targetPort: 5432, port: 5432, name: "external", isProxied: false);
+if (!isTesting) postgres.WithDataVolume("postgres-data");
 
 var dbName = builder.Configuration["Database:Name"] ?? "myddd-db";
 var db = postgres.AddDatabase(dbName);
@@ -46,8 +47,12 @@ var keycloak = builder.AddContainer("keycloak", "quay.io/keycloak/keycloak")
     .WithEnvironment("KC_MAIL_SMTP_PORT", "1025")
     .WithEnvironment("KC_MAIL_SMTP_FROM", "no-reply@myddd-template.com")
     .WithEnvironment("KC_MAIL_SMTP_FROM_DISPLAY_NAME", "MyDDD Template")
-    .WithVolume("keycloak-data", "/opt/keycloak/data")
     .WithBindMount("./Realms", "/opt/keycloak/data/import");
+
+if (!isTesting)
+{
+    keycloak.WithVolume("keycloak-data", "/opt/keycloak/data");
+}
 
 builder.AddProject<Projects.MyDDD_Template_Api>("api")
     .WithHttpEndpoint(5000, name: "http")

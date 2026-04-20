@@ -1,17 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using MyDDD.Template.Domain.Users;
 
-namespace MyDDD.Template.Infrastructure.Persistence.Configurations.Domain.User;
+namespace MyDDD.Template.Infrastructure.Persistence.Repositories;
 
 public class UserRepository(ApplicationDbContext context) : IUserRepository
 {
-    public async Task<Template.Domain.Users.User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await context.Users
             .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
     }
 
-    public async Task<Template.Domain.Users.User?> GetByEmailAsync(
+    public async Task<User?> GetByEmailAsync(
         string email,
         CancellationToken cancellationToken = default)
     {
@@ -19,7 +19,7 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
             .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
 
-    public async Task<Template.Domain.Users.User?> GetByIdentityIdAsync(
+    public async Task<User?> GetByIdentityIdAsync(
         string identityId,
         CancellationToken cancellationToken = default)
     {
@@ -27,7 +27,7 @@ public class UserRepository(ApplicationDbContext context) : IUserRepository
             .FirstOrDefaultAsync(u => u.IdentityId == identityId, cancellationToken);
     }
 
-    public void Add(Template.Domain.Users.User user)
+    public void Add(User user)
     {
         context.Users.Add(user);
     }

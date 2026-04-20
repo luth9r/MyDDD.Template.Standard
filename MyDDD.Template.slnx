@@ -13,5 +13,7 @@
         <Project Path="tests/MyDDD.Template.Domain.UnitTests/MyDDD.Template.Domain.UnitTests.csproj" />
         <Project Path="tests/MyDDD.Template.Application.UnitTests/MyDDD.Template.Application.UnitTests.csproj" />
         <Project Path="tests/MyDDD.Template.Infrastructure.UnitTests/MyDDD.Template.Infrastructure.UnitTests.csproj" />
+        <Project Path="tests/MyDDD.Template.FunctionalTests/MyDDD.Template.FunctionalTests.csproj" />
+        <Project Path="tests/MyDDD.Template.ArchitectureTests/MyDDD.Template.ArchitectureTests.csproj" />
     </Folder>
 </Solution>

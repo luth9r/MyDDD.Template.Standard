@@ -111,6 +111,21 @@ Projects are split into:
 - `Domain.UnitTests`: Pure business logic verification.
 - `Application.UnitTests`: Use case and command handler verification.
 - `Infrastructure.UnitTests`: Middleware and helper verification.
+- `FunctionalTests`: End-to-end flow verification using `Aspire.Hosting.Testing`.
+- `ArchitectureTests`: Layering and dependency rule enforcement using `NetArchTest.eNet`.
+
+---
+
+## 🛠️ Troubleshooting & Tips
+
+### 🔑 Keycloak Initial Setup
+- The `AppHost` automatically imports the realm configuration from the `infra/MyDDD.Template.AppHost/Realms` directory.
+- Default admin credentials are set to `admin`/`admin`.
+- If the realm is not appearing, check the `keycloak` container logs in the Aspire dashboard.
+
+### 📊 Observability with Seq
+- All traces and logs are exported to **Seq** via OTLP.
+- Open the Seq UI (URL provided in Aspire dashboard) to view Wolverine messaging flows and EF Core queries.
 
 ---
 

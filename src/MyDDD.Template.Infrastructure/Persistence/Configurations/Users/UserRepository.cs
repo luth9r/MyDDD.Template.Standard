@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyDDD.Template.Domain.Users;
 
-namespace MyDDD.Template.Infrastructure.Persistence.Repositories;
+namespace MyDDD.Template.Infrastructure.Persistence.Configurations.Users;
 
 public class UserRepository(ApplicationDbContext context) : IUserRepository
 {

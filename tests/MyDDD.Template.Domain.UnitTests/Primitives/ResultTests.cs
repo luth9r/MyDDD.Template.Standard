@@ -120,8 +120,5 @@ public class ResultTests
         act.Should().Throw<ArgumentException>().WithMessage("*Invalid error*");
     }
 
-    private sealed class TestResult : Result
-    {
-        public TestResult(bool isSuccess, MyError error) : base(isSuccess, error) { }
-    }
+    private sealed class TestResult(bool isSuccess, MyError error) : Result(isSuccess, error);
 }

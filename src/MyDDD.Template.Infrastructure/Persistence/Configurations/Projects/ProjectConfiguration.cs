@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyDDD.Template.Domain.Projects;
 
-namespace MyDDD.Template.Infrastructure.Persistence.Configurations.Domain.Projects;
+namespace MyDDD.Template.Infrastructure.Persistence.Configurations.Projects;
 
 internal sealed class ProjectConfiguration : IEntityTypeConfiguration<Project>
 {

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace MyDDD.Template.Infrastructure.Persistence.Configurations.Domain.User;
+namespace MyDDD.Template.Infrastructure.Persistence.Configurations.Users;
 
 public class UserConfiguration : IEntityTypeConfiguration<Template.Domain.Users.User>
 {

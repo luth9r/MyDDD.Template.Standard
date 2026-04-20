@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyDDD.Template.Domain.Projects;
 
-namespace MyDDD.Template.Infrastructure.Persistence.Repositories;
+namespace MyDDD.Template.Infrastructure.Persistence.Configurations.Projects;
 
 public sealed class ProjectRepository(ApplicationDbContext context) : IProjectRepository
 {
@@ -20,11 +20,6 @@ public sealed class ProjectRepository(ApplicationDbContext context) : IProjectRe
     public void Add(Project project)
     {
         context.Projects.Add(project);
-    }
-
-    public void Update(Project project)
-    {
-        context.Projects.Update(project);
     }
 
     public void Remove(Project project)

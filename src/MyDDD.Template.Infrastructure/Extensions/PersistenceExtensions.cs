@@ -2,12 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Domain;
 using MyDDD.Template.Domain.Projects;
 using MyDDD.Template.Domain.Users;
 using MyDDD.Template.Infrastructure.Persistence;
+using MyDDD.Template.Infrastructure.Persistence.Configurations.Projects;
+using MyDDD.Template.Infrastructure.Persistence.Configurations.Users;
 using MyDDD.Template.Infrastructure.Persistence.Interceptors;
-using MyDDD.Template.Infrastructure.Persistence.Repositories;
 using Wolverine.EntityFrameworkCore;
 
 namespace MyDDD.Template.Infrastructure.Extensions;
@@ -33,6 +35,8 @@ internal static class PersistenceExtensions
         });
 
         builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+        builder.Services.AddScoped<IProjectQueries, ProjectQueries>();
+
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

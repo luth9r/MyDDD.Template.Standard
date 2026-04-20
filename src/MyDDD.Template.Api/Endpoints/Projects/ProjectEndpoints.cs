@@ -1,6 +1,8 @@
 using MyDDD.Template.Api.Abstractions;
 using MyDDD.Template.Api.Extensions;
+using MyDDD.Template.Application.Projects;
 using MyDDD.Template.Application.Projects.CreateProject;
+using MyDDD.Template.Application.Projects.GetAllUserProjects;
 using MyDDD.Template.Application.Projects.GetProjectById;
 using MyDDD.Template.Domain.Primitives;
 using Wolverine;
@@ -18,6 +20,7 @@ public sealed class ProjectEndpoints : IEndpoint
         group.MapPost("", CreateProject);
         group.MapGet("{id:guid}", GetProject)
             .WithName("GetProject");
+        group.MapGet("", GetAllUserProjects);
     }
 
     private static async Task<IResult> CreateProject(
@@ -42,5 +45,16 @@ public sealed class ProjectEndpoints : IEndpoint
         return result.IsSuccess
             ? Results.Ok(result.Value)
             : result.ToProblemDetails();
+    }
+
+    private static async Task<IResult> GetAllUserProjects(
+        IMessageBus bus,
+        CancellationToken cancellationToken)
+    {
+        var result =
+            await bus.InvokeAsync<Result<IReadOnlyList<ProjectResponse>>>(new GetAllUserProjectsQuery(),
+                cancellationToken);
+
+        return Results.Ok(result.Value);
     }
 }

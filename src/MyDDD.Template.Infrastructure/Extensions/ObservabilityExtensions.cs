@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenTelemetry.Trace;
 
-namespace MyDDD.Template.Infrastructure;
+namespace MyDDD.Template.Infrastructure.Extensions;
 
 internal static class ObservabilityExtensions
 {

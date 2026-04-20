@@ -6,21 +6,33 @@ var builder = DistributedApplication.CreateBuilder(args);
 // Parameters
 var clientSecret = builder.AddParameter("KeycloakClientSecret", "my-client-secret", secret: true);
 var adminSecret = builder.AddParameter("KeycloakAdminSecret", "my-admin-secret", secret: true);
+
 var dbUser = builder.AddParameter("DbUser", "user");
 var dbPassword = builder.AddParameter("dbpassword", "password", secret: true);
+
+var rabbitUser = builder.AddParameter("rabbit-user", "user");
+var rabbitPass = builder.AddParameter("rabbit-password", "password", secret: true);
 
 // Infrastructure
 var isTesting = builder.Environment.IsEnvironment("Testing");
 var cache = builder.AddRedis("cache")
     .WithRedisInsight();
 
-var rabbitmq = builder.AddRabbitMQ("rabbitmq")
+var rabbitmq = builder.AddRabbitMQ("rabbitmq", userName: rabbitUser, password: rabbitPass)
     .WithManagementPlugin();
-if (!isTesting) rabbitmq.WithDataVolume("rabbitmq-data");
+
+if (!isTesting)
+{
+    rabbitmq.WithDataVolume("rabbitmq-data");
+}
 
 var postgres = builder.AddPostgres("postgres", password: dbPassword, userName: dbUser)
     .WithEndpoint(targetPort: 5432, port: 5432, name: "external", isProxied: false);
-if (!isTesting) postgres.WithDataVolume("postgres-data");
+
+if (!isTesting)
+{
+    postgres.WithDataVolume("postgres-data");
+}
 
 var dbName = builder.Configuration["Database:Name"] ?? "myddd-db";
 var db = postgres.AddDatabase(dbName);
@@ -56,6 +68,7 @@ if (!isTesting)
 
 builder.AddProject<Projects.MyDDD_Template_Api>("api")
     .WithHttpEndpoint(5000, name: "http")
+    .WithHttpsEndpoint(port: 5001, name: "https")
     .WithReference(db)
     .WithReference(cache)
     .WithReference(rabbitmq)

@@ -11,14 +11,8 @@ namespace MyDDD.Template.Application.UnitTests.Projects;
 
 public class CreateProjectTests
 {
-    private readonly Mock<IProjectRepository> _projectRepositoryMock;
-    private readonly Mock<IUserContext> _userContextMock;
-
-    public CreateProjectTests()
-    {
-        _projectRepositoryMock = new Mock<IProjectRepository>();
-        _userContextMock = new Mock<IUserContext>();
-    }
+    private readonly Mock<IProjectRepository> _projectRepositoryMock = new();
+    private readonly Mock<IUserContext> _userContextMock = new();
 
     [Fact]
     public async Task Handle_Should_ReturnSuccessResult_When_CommandIsValid()
@@ -35,7 +29,7 @@ public class CreateProjectTests
             command,
             _projectRepositoryMock.Object,
             _userContextMock.Object,
-            default);
+            CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
@@ -61,7 +55,7 @@ public class CreateProjectTests
             command,
             _projectRepositoryMock.Object,
             _userContextMock.Object,
-            default);
+            CancellationToken.None);
 
         // Assert
         result.IsFailure.Should().BeTrue();

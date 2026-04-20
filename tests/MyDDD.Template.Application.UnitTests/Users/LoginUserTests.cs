@@ -11,16 +11,9 @@ namespace MyDDD.Template.Application.UnitTests.Users;
 
 public class LoginUserTests
 {
-    private readonly Mock<IIdentityService> _identityServiceMock;
-    private readonly Mock<IUserRepository> _userRepositoryMock;
-    private readonly Mock<ILogger<LoginUserCommand>> _loggerMock;
-
-    public LoginUserTests()
-    {
-        _identityServiceMock = new Mock<IIdentityService>();
-        _userRepositoryMock = new Mock<IUserRepository>();
-        _loggerMock = new Mock<ILogger<LoginUserCommand>>();
-    }
+    private readonly Mock<IIdentityService> _identityServiceMock = new();
+    private readonly Mock<IUserRepository> _userRepositoryMock = new();
+    private readonly Mock<ILogger<LoginUserCommand>> _loggerMock = new();
 
     private static AccessTokenResponse CreateToken()
     {
@@ -42,7 +35,7 @@ public class LoginUserTests
             _identityServiceMock.Object,
             _userRepositoryMock.Object,
             _loggerMock.Object,
-            default);
+            CancellationToken.None);
 
         // Assert
         result.IsFailure.Should().BeTrue();
@@ -68,7 +61,7 @@ public class LoginUserTests
             _identityServiceMock.Object,
             _userRepositoryMock.Object,
             _loggerMock.Object,
-            default);
+            CancellationToken.None);
 
         // Assert
         result.IsFailure.Should().BeTrue();
@@ -98,7 +91,7 @@ public class LoginUserTests
             _identityServiceMock.Object,
             _userRepositoryMock.Object,
             _loggerMock.Object,
-            default);
+            CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
@@ -128,7 +121,7 @@ public class LoginUserTests
             _identityServiceMock.Object,
             _userRepositoryMock.Object,
             _loggerMock.Object,
-            default);
+            CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
@@ -159,7 +152,7 @@ public class LoginUserTests
             _identityServiceMock.Object,
             _userRepositoryMock.Object,
             _loggerMock.Object,
-            default);
+            CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeTrue();
@@ -188,7 +181,7 @@ public class LoginUserTests
             _identityServiceMock.Object,
             _userRepositoryMock.Object,
             _loggerMock.Object,
-            default);
+            CancellationToken.None);
 
         // Assert
         result.IsSuccess.Should().BeTrue();

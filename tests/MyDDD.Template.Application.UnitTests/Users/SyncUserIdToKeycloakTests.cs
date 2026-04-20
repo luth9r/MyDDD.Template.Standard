@@ -10,12 +10,7 @@ namespace MyDDD.Template.Application.UnitTests.Users;
 
 public class SyncUserIdToKeycloakTests
 {
-    private readonly Mock<IIdentityService> _identityServiceMock;
-
-    public SyncUserIdToKeycloakTests()
-    {
-        _identityServiceMock = new Mock<IIdentityService>();
-    }
+    private readonly Mock<IIdentityService> _identityServiceMock = new();
 
     [Fact]
     public async Task Handle_Should_CallUpdateUserAttributes_When_MessageIsValid()
@@ -29,7 +24,7 @@ public class SyncUserIdToKeycloakTests
             .ReturnsAsync(Result.Success());
 
         // Act
-        await SyncUserIdToKeycloakHandler.Handle(message, _identityServiceMock.Object, default);
+        await SyncUserIdToKeycloakHandler.Handle(message, _identityServiceMock.Object, CancellationToken.None);
 
         // Assert
         _identityServiceMock.Verify(x => x.UpdateUserAttributesAsync(
@@ -51,7 +46,7 @@ public class SyncUserIdToKeycloakTests
             .ReturnsAsync(Result.Failure(error));
 
         // Act
-        var act = async () => await SyncUserIdToKeycloakHandler.Handle(message, _identityServiceMock.Object, default);
+        var act = async () => await SyncUserIdToKeycloakHandler.Handle(message, _identityServiceMock.Object, CancellationToken.None);
 
         // Assert
         await act.Should().ThrowAsync<IdentitySyncException>()

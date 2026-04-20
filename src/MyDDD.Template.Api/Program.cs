@@ -1,6 +1,7 @@
 ﻿using MyDDD.Template.Api.Extensions;
 using MyDDD.Template.Application;
 using MyDDD.Template.Infrastructure;
+using MyDDD.Template.ServiceDefaults;
 using Serilog;
 
 

@@ -1,15 +1,11 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Infrastructure.Auth;
 
-namespace MyDDD.Template.Infrastructure;
+namespace MyDDD.Template.Infrastructure.Extensions;
 
 internal static class AuthenticationExtensions
 {

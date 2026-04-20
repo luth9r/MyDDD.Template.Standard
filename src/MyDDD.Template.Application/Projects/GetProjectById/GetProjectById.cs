@@ -6,33 +6,23 @@ namespace MyDDD.Template.Application.Projects.GetProjectById;
 
 public sealed record GetProjectByIdQuery(Guid Id);
 
-public sealed record ProjectResponse(Guid Id, string Name)
-{
-    public static ProjectResponse Map(Project project)
-    {
-        return new ProjectResponse(project.Id, project.Name);
-    }
-}
-
 public static class GetProjectByIdQueryHandler
 {
     public static async Task<Result<ProjectResponse>> Handle(
         GetProjectByIdQuery request,
-        IProjectRepository projectRepository,
+        IProjectQueries projectQueries,
         IUserContext userContext,
         CancellationToken cancellationToken)
     {
-        var project = await projectRepository.GetByIdAsync(request.Id, cancellationToken);
+        var projectResponse = await projectQueries.GetByIdAsync(request.Id, await userContext.GetUserIdAsync(cancellationToken), cancellationToken);
 
-        var userId = await userContext.GetUserIdAsync(cancellationToken);
-
-        if (project is null || project.UserId != userId)
+        if (projectResponse is null)
         {
             return Result.Failure<ProjectResponse>(MyError.NotFound(
                 "Project.NotFound",
                 $"Project with Id '{request.Id}' was not found."));
         }
 
-        return Result.Success(ProjectResponse.Map(project));
+        return Result.Success(projectResponse);
     }
 }

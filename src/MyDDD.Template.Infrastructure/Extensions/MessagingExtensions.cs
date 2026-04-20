@@ -1,17 +1,15 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MyDDD.Template.Application.Exceptions;
-using MyDDD.Template.Infrastructure.Behaviors;
 using MyDDD.Template.Application.Projects.CreateProject;
+using MyDDD.Template.Infrastructure.Behaviors;
 using Wolverine;
 using Wolverine.EntityFrameworkCore;
-using Wolverine.ErrorHandling;
 using Wolverine.FluentValidation;
 using Wolverine.Postgresql;
 using Wolverine.RabbitMQ;
 
-namespace MyDDD.Template.Infrastructure;
+namespace MyDDD.Template.Infrastructure.Extensions;
 
 internal static class MessagingExtensions
 {

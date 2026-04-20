@@ -1,5 +1,4 @@
 using MyDDD.Template.Domain.Primitives;
-using MyDDD.Template.Domain.Projects.DomainEvents;
 using MyDDD.Template.Domain.Users.DomainEvents;
 
 namespace MyDDD.Template.Domain.Users;

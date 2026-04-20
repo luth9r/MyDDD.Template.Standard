@@ -40,7 +40,7 @@ public class GlobalExceptionHandlerTests
             .Returns(ValueTask.CompletedTask);
 
         // Act
-        var result = await _handler.TryHandleAsync(context, exception, default);
+        var result = await _handler.TryHandleAsync(context, exception, CancellationToken.None);
 
         // Assert
         result.Should().BeTrue();
@@ -62,7 +62,7 @@ public class GlobalExceptionHandlerTests
             .Returns(ValueTask.CompletedTask);
 
         // Act
-        var result = await _handler.TryHandleAsync(context, exception, default);
+        var result = await _handler.TryHandleAsync(context, exception, CancellationToken.None);
 
         // Assert
         result.Should().BeTrue();
@@ -82,7 +82,7 @@ public class GlobalExceptionHandlerTests
             .Returns(ValueTask.CompletedTask);
 
         // Act
-        await _handler.TryHandleAsync(context, exception, default);
+        await _handler.TryHandleAsync(context, exception, CancellationToken.None);
 
         // Assert
         _problemDetailsServiceMock.Verify(x => x.WriteAsync(It.Is<ProblemDetailsContext>(c =>

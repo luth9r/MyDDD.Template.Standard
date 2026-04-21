@@ -28,32 +28,27 @@ public sealed partial class GlobalExceptionHandler(
                 StatusCodes.Status400BadRequest,
                 "Validation Error",
                 "https://tools.ietf.org/html/rfc9110#section-15.5.1",
-                "One or more validation errors occurred."
-            ),
+                "One or more validation errors occurred."),
             UnauthorizedAccessException => (
                 StatusCodes.Status401Unauthorized,
                 "Unauthorized",
                 "https://tools.ietf.org/html/rfc9110#section-15.5.2",
-                "You are not authorized to access this resource."
-            ),
+                "You are not authorized to access this resource."),
             KeyNotFoundException => (
                 StatusCodes.Status404NotFound,
                 "Not Found",
                 "https://tools.ietf.org/html/rfc9110#section-15.5.5",
-                "The requested resource was not found."
-            ),
+                "The requested resource was not found."),
             IdentitySyncException => (
                 StatusCodes.Status500InternalServerError,
                 "Identity Sync Error",
                 "https://tools.ietf.org/html/rfc9110#section-15.6.1",
-                "An error occurred while synchronizing identity data."
-            ),
+                "An error occurred while synchronizing identity data."),
             _ => (
                 StatusCodes.Status500InternalServerError,
                 "Server Error",
                 "https://tools.ietf.org/html/rfc9110#section-15.6.1",
-                "An unexpected error occurred."
-            ),
+                "An unexpected error occurred."),
         };
 
         var problemDetails = new ProblemDetails
@@ -81,7 +76,9 @@ public sealed partial class GlobalExceptionHandler(
 
         await problemDetailsService.WriteAsync(new ProblemDetailsContext
         {
-            HttpContext = httpContext, Exception = exception, ProblemDetails = problemDetails,
+            HttpContext = httpContext,
+            Exception = exception,
+            ProblemDetails = problemDetails,
         });
 
         return true;

@@ -1,6 +1,5 @@
 using FluentAssertions;
 using MyDDD.Template.Domain.Primitives;
-using Xunit;
 
 namespace MyDDD.Template.Domain.UnitTests.Primitives;
 

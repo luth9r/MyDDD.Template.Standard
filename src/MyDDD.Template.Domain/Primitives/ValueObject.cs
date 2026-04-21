@@ -2,11 +2,31 @@ namespace MyDDD.Template.Domain.Primitives;
 
 public abstract class ValueObject : IEquatable<ValueObject>
 {
-    protected abstract IEnumerable<object> GetAtomicValues();
+    public static bool operator ==(ValueObject? left, ValueObject? right)
+    {
+        if (left is null && right is null)
+        {
+            return true;
+        }
+
+        if (left is null || right is null)
+        {
+            return false;
+        }
+
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(ValueObject? first, ValueObject? second) => !(first == second);
 
     public bool Equals(ValueObject? other)
     {
-        return other is not null && ValuesAreEqual(other);
+        if (other is null || other.GetType() != GetType())
+        {
+            return false;
+        }
+
+        return GetAtomicValues().SequenceEqual(other.GetAtomicValues());
     }
 
     public override bool Equals(object? obj)
@@ -20,13 +40,5 @@ public abstract class ValueObject : IEquatable<ValueObject>
             .Aggregate(0, HashCode.Combine);
     }
 
-    private bool ValuesAreEqual(ValueObject other)
-    {
-        return GetAtomicValues().SequenceEqual(other.GetAtomicValues());
-    }
-
-    public static bool operator ==(ValueObject? first, ValueObject? second) =>
-        first is not null && second is not null && first.Equals(second);
-
-    public static bool operator !=(ValueObject? first, ValueObject? second) => !(first == second);
+    protected abstract IEnumerable<object> GetAtomicValues();
 }

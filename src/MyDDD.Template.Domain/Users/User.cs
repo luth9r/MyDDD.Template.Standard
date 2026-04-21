@@ -5,18 +5,22 @@ namespace MyDDD.Template.Domain.Users;
 
 public sealed class User : AggregateRoot
 {
-    public string IdentityId { get; private set; }
-    public string Email { get; private set; }
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-
-    private User(Guid id, string identityId, string email, string firstName, string lastName) : base(id)
+    private User(Guid id, string identityId, string email, string firstName, string lastName)
+        : base(id)
     {
         IdentityId = identityId;
         Email = email;
         FirstName = firstName;
         LastName = lastName;
     }
+
+    public string IdentityId { get; private set; }
+
+    public string Email { get; private set; }
+
+    public string FirstName { get; private set; }
+
+    public string LastName { get; private set; }
 
     public static User Create(
         string identityId,
@@ -40,5 +44,15 @@ public sealed class User : AggregateRoot
         user.RaiseDomainEvent(new UserRegisteredDomainEvent(user.Id, user.IdentityId, user.Email));
 
         return user;
+    }
+
+    public void UpdateIdentityId(string newIdentityId)
+    {
+        if (string.IsNullOrWhiteSpace(newIdentityId))
+        {
+            throw new ArgumentException("IdentityId cannot be empty", nameof(newIdentityId));
+        }
+
+        IdentityId = newIdentityId;
     }
 }

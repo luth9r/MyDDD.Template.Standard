@@ -5,15 +5,16 @@ namespace MyDDD.Template.Domain.Projects;
 
 public sealed class Project : AggregateRoot
 {
-    public string Name { get; private set; }
-
-    public Guid UserId { get; private set; }
-
-    private Project(Guid id, string name, Guid userId) : base(id)
+    private Project(Guid id, string name, Guid userId)
+        : base(id)
     {
         Name = name;
         UserId = userId;
     }
+
+    public string Name { get; private set; }
+
+    public Guid UserId { get; private set; }
 
     public static Project Create(string name, Guid userId)
     {

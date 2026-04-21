@@ -10,23 +10,10 @@ public record LoginResponse(AccessTokenResponse Token, Guid UserId);
 
 public record LoginUserCommand(string Email, string Password);
 
-public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
-{
-    public LoginUserCommandValidator()
-    {
-        RuleFor(x => x.Email)
-            .NotEmpty()
-            .EmailAddress();
-
-        RuleFor(x => x.Password)
-            .NotEmpty();
-    }
-}
-
 [Wolverine.Attributes.Transactional]
 public static partial class LoginUserCommandHandler
 {
-    public static async Task<(Result<LoginResponse>, SyncUserIdToKeycloak?)> Handle(
+    public static async Task<(Result<LoginResponse> Result, SyncUserIdToKeycloak? SyncMessage)> Handle(
         LoginUserCommand request,
         IIdentityService identityService,
         IUserRepository userRepository,
@@ -80,37 +67,55 @@ public static partial class LoginUserCommandHandler
             return (existingUser.Id, false);
         }
 
-        // Ghost user (Keycloak user exists, but not in DB)
+        var existingByEmail = await userRepository.GetByEmailAsync(userInfo.Email, cancellationToken);
+        if (existingByEmail is not null)
+        {
+            existingByEmail.UpdateIdentityId(userInfo.IdentityId);
+
+            LogIdentityIdUpdated(logger, userInfo.Email, userInfo.IdentityId);
+
+            return await SyncExistingUser(existingByEmail, userInfo, logger);
+        }
+
         if (userInfo.InternalUserId.HasValue)
         {
             LogGhostIdDetected(logger, userInfo.IdentityId, userInfo.InternalUserId.Value);
 
-            // Create a new user with the same ID
-            var recoveredUser = User.Create(
+            var ghostUser = User.Create(
                 userInfo.IdentityId,
                 userInfo.Email,
                 userInfo.FirstName,
                 userInfo.LastName,
                 userInfo.InternalUserId.Value);
 
-            userRepository.Add(recoveredUser);
-
-            // Keycloak user is already synced
-            return (recoveredUser.Id, false);
+            userRepository.Add(ghostUser);
+            return (ghostUser.Id, false);
         }
 
-        // New user, create it
-        var user = User.Create(
+        var newUser = User.Create(
             userInfo.IdentityId,
             userInfo.Email,
             userInfo.FirstName,
             userInfo.LastName);
 
-        userRepository.Add(user);
+        userRepository.Add(newUser);
+        LogNewUserCreated(logger, newUser.IdentityId, newUser.Id);
 
-        LogNewUserCreated(logger, user.IdentityId, user.Id);
+        return (newUser.Id, true);
+    }
 
-        return (user.Id, true);
+    private static ValueTask<(Guid UserId, bool NeedsSync)> SyncExistingUser(
+        User user,
+        UserJwtInfo userInfo,
+        ILogger logger)
+    {
+        if (!userInfo.InternalUserId.HasValue || userInfo.InternalUserId.Value != user.Id)
+        {
+            LogMissingKeycloakId(logger, user.IdentityId, user.Id);
+            return ValueTask.FromResult((user.Id, true));
+        }
+
+        return ValueTask.FromResult((user.Id, false));
     }
 
     [LoggerMessage(Level = LogLevel.Warning, Message = "Login failed for email {Email}. Reason: {Error}")]
@@ -132,4 +137,21 @@ public static partial class LoginUserCommandHandler
     [LoggerMessage(Level = LogLevel.Information,
         Message = "New user created in DB: {UserId} (IdentityId: {IdentityId}). Queuing sync to Keycloak.")]
     private static partial void LogNewUserCreated(ILogger logger, string identityId, Guid userId);
+
+    [LoggerMessage(Level = LogLevel.Information,
+        Message = "User with email {Email} found by email lookup. Updating IdentityId to {NewIdentityId}")]
+    private static partial void LogIdentityIdUpdated(ILogger logger, string email, string newIdentityId);
+}
+
+public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
+{
+    public LoginUserCommandValidator()
+    {
+        RuleFor(x => x.Email)
+            .NotEmpty()
+            .EmailAddress();
+
+        RuleFor(x => x.Password)
+            .NotEmpty();
+    }
 }

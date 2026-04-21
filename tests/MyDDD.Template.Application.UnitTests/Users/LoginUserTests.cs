@@ -1,11 +1,10 @@
-using Moq;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
+using Moq;
 using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Application.Users.LoginUser;
 using MyDDD.Template.Domain.Primitives;
 using MyDDD.Template.Domain.Users;
-using Xunit;
 
 namespace MyDDD.Template.Application.UnitTests.Users;
 
@@ -14,11 +13,6 @@ public class LoginUserTests
     private readonly Mock<IIdentityService> _identityServiceMock = new();
     private readonly Mock<IUserRepository> _userRepositoryMock = new();
     private readonly Mock<ILogger<LoginUserCommand>> _loggerMock = new();
-
-    private static AccessTokenResponse CreateToken()
-    {
-        return new AccessTokenResponse("access", "refresh", 3600, 3600, "Bearer", "id", "session", "scope");
-    }
 
     [Fact]
     public async Task Handle_Should_ReturnFailure_When_LoginAsyncFails()
@@ -189,5 +183,10 @@ public class LoginUserTests
         syncMessage.Should().NotBeNull();
         syncMessage!.UserId.Should().Be(newUserId);
         _userRepositoryMock.Verify(x => x.Add(It.Is<User>(u => u.Id == newUserId)), Times.Once);
+    }
+
+    private static AccessTokenResponse CreateToken()
+    {
+        return new AccessTokenResponse("access", "refresh", 3600, 3600, "Bearer", "id", "session", "scope");
     }
 }

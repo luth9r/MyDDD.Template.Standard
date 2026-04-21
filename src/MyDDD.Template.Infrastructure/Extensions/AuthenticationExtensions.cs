@@ -48,7 +48,7 @@ internal static class AuthenticationExtensions
                     ValidAudience = configuration["Keycloak:Audience"],
                     ValidateLifetime = true,
                 };
-        });
+            });
 
         services.AddAuthorization();
 

@@ -1,7 +1,6 @@
 using FluentAssertions;
 using MyDDD.Template.Domain.Users;
 using MyDDD.Template.Domain.Users.DomainEvents;
-using Xunit;
 
 namespace MyDDD.Template.Domain.UnitTests.Users;
 

@@ -1,13 +1,11 @@
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Moq;
-using FluentAssertions;
 using MyDDD.Template.Application.Exceptions;
 using MyDDD.Template.Domain.Primitives;
 using MyDDD.Template.Infrastructure.Middleware;
-using Xunit;
 
 namespace MyDDD.Template.Infrastructure.UnitTests.Middleware;
 
@@ -45,10 +43,12 @@ public class GlobalExceptionHandlerTests
         // Assert
         result.Should().BeTrue();
         context.Response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
-        _problemDetailsServiceMock.Verify(x => x.WriteAsync(It.Is<ProblemDetailsContext>(c =>
+        _problemDetailsServiceMock.Verify(
+            x => x.WriteAsync(It.Is<ProblemDetailsContext>(c =>
             c.ProblemDetails.Status == StatusCodes.Status400BadRequest &&
             c.ProblemDetails.Title == "Validation Error" &&
-            c.ProblemDetails.Extensions.ContainsKey("errors"))), Times.Once);
+            c.ProblemDetails.Extensions.ContainsKey("errors"))),
+            Times.Once);
     }
 
     [Fact]
@@ -67,8 +67,10 @@ public class GlobalExceptionHandlerTests
         // Assert
         result.Should().BeTrue();
         context.Response.StatusCode.Should().Be(StatusCodes.Status401Unauthorized);
-        _problemDetailsServiceMock.Verify(x => x.WriteAsync(It.Is<ProblemDetailsContext>(c =>
-            c.ProblemDetails.Status == StatusCodes.Status401Unauthorized)), Times.Once);
+        _problemDetailsServiceMock.Verify(
+            x => x.WriteAsync(It.Is<ProblemDetailsContext>(c =>
+            c.ProblemDetails.Status == StatusCodes.Status401Unauthorized)),
+            Times.Once);
     }
 
     [Fact]
@@ -85,8 +87,10 @@ public class GlobalExceptionHandlerTests
         await _handler.TryHandleAsync(context, exception, CancellationToken.None);
 
         // Assert
-        _problemDetailsServiceMock.Verify(x => x.WriteAsync(It.Is<ProblemDetailsContext>(c =>
+        _problemDetailsServiceMock.Verify(
+            x => x.WriteAsync(It.Is<ProblemDetailsContext>(c =>
             c.ProblemDetails.Extensions.ContainsKey("debug_exception") &&
-            c.ProblemDetails.Detail == "Critical error")), Times.Once);
+            c.ProblemDetails.Detail == "Critical error")),
+            Times.Once);
     }
 }

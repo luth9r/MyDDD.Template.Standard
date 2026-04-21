@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using MyDDD.Template.Domain.Primitives;
 using MyDDD.Template.Domain.Projects;
 using MyDDD.Template.Domain.Users;
-using MyDDD.Template.Infrastructure.Persistence.Interceptors;
 
 namespace MyDDD.Template.Infrastructure.Persistence;
 
@@ -46,12 +45,12 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
         base.OnModelCreating(modelBuilder);
     }
 
-    private class UtcValueConverter()
+    private sealed class UtcValueConverter()
         : Microsoft.EntityFrameworkCore.Storage.ValueConversion.ValueConverter<DateTime, DateTime>(
             v => v,
             v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
 
-    private class UtcNullableValueConverter()
+    private sealed class UtcNullableValueConverter()
         : Microsoft.EntityFrameworkCore.Storage.ValueConversion.ValueConverter<DateTime?, DateTime?>(
             v => v,
             v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : v);

@@ -1,22 +1,11 @@
 using FluentValidation;
 using MyDDD.Template.Application.Abstractions;
-using MyDDD.Template.Domain;
 using MyDDD.Template.Domain.Primitives;
 using MyDDD.Template.Domain.Projects;
 
 namespace MyDDD.Template.Application.Projects.CreateProject;
 
 public sealed record CreateProjectCommand(string Name);
-
-public sealed class CreateProjectCommandValidator : AbstractValidator<CreateProjectCommand>
-{
-    public CreateProjectCommandValidator()
-    {
-        RuleFor(p => p.Name)
-            .NotEmpty()
-            .MaximumLength(50);
-    }
-}
 
 [Wolverine.Attributes.Transactional]
 public static class CreateProjectCommandHandler
@@ -41,5 +30,15 @@ public static class CreateProjectCommandHandler
         projectRepository.Add(project);
 
         return Result.Success(project.Id);
+    }
+}
+
+public sealed class CreateProjectCommandValidator : AbstractValidator<CreateProjectCommand>
+{
+    public CreateProjectCommandValidator()
+    {
+        RuleFor(p => p.Name)
+            .NotEmpty()
+            .MaximumLength(50);
     }
 }

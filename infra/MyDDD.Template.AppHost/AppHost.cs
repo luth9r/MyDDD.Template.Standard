@@ -79,19 +79,21 @@ builder.AddProject<Projects.MyDDD_Template_Api>("api")
     .WaitFor(seq)
     .WithEnvironment("ASPNETCORE_ENVIRONMENT", "Development")
     .WithEnvironment("Keycloak__Authority", () => $"{keycloak.GetEndpoint("http").Url}/realms/my-realm")
-    .WithEnvironment("Keycloak__MetadataAddress",
+    .WithEnvironment(
+        "Keycloak__MetadataAddress",
         () => $"{keycloak.GetEndpoint("http").Url}/realms/my-realm/.well-known/openid-configuration")
     .WithEnvironment("Keycloak__Issuer", () => $"{keycloak.GetEndpoint("http").Url}/realms/my-realm")
     .WithEnvironment("Keycloak__Realm", "my-realm")
     .WithEnvironment("Keycloak__AdminUrl", () => $"{keycloak.GetEndpoint("http").Url}")
-    .WithEnvironment("Keycloak__ClientId", "scalar-client")
-    .WithEnvironment("Keycloak__AdminClientId", "api-client")
+    .WithEnvironment("Keycloak__ClientId", "client")
+    .WithEnvironment("Keycloak__AdminClientId", "admin")
     .WithEnvironment("Keycloak__ClientSecret", clientSecret)
     .WithEnvironment("Keycloak__AdminSecret", adminSecret)
     .WithEnvironment("Keycloak__Audience", "account")
     .WithEnvironment("Seq__ServerUrl", () => seq.GetEndpoint("http").Url)
     .WithEnvironment("MailHog__Smtp__Host", () => mailhog.GetEndpoint("smtp").Host)
-    .WithEnvironment("MailHog__Smtp__Port",
+    .WithEnvironment(
+        "MailHog__Smtp__Port",
         () => mailhog.GetEndpoint("smtp").Port.ToString(CultureInfo.InvariantCulture));
 
 builder.Build().Run();

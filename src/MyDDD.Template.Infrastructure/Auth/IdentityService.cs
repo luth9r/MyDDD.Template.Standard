@@ -1,6 +1,5 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text.Json.Serialization;
 using Microsoft.Extensions.Options;
 using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Domain.Primitives;
@@ -34,7 +33,8 @@ public sealed class IdentityService(
 
         if (!response.IsSuccessStatusCode)
         {
-            return Result.Failure<AccessTokenResponse>(MyError.Failure("Auth.InvalidCredentials",
+            return Result.Failure<AccessTokenResponse>(MyError.Failure(
+                "Auth.InvalidCredentials",
                 "Invalid email or password"));
         }
 
@@ -75,7 +75,7 @@ public sealed class IdentityService(
 
         var existingAttributes = userDoc.TryGetValue("attributes", out var value)
             ? System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string[]>>(value.ToString()!)
-            : new Dictionary<string, string[]>();
+            : [];
 
         foreach (var attr in attributes)
         {
@@ -92,7 +92,8 @@ public sealed class IdentityService(
 
         return putResponse.IsSuccessStatusCode
             ? Result.Success()
-            : Result.Failure(MyError.Failure("Keycloak.UpdateError",
+            : Result.Failure(MyError.Failure(
+                "Keycloak.UpdateError",
                 $"Failed to PUT user. Status: {putResponse.StatusCode}"));
     }
 

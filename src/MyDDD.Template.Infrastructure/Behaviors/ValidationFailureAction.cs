@@ -1,6 +1,5 @@
 using FluentValidation.Results;
 using MyDDD.Template.Application.Exceptions;
-using MyDDD.Template.Domain;
 using MyDDD.Template.Domain.Primitives;
 using Wolverine.FluentValidation;
 using DomainValidationResult = MyDDD.Template.Domain.Primitives.ValidationResult;

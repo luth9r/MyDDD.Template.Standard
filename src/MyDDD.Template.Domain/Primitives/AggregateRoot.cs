@@ -2,11 +2,12 @@ namespace MyDDD.Template.Domain.Primitives;
 
 public abstract class AggregateRoot(Guid id) : Entity(id), IAuditable
 {
+    private readonly List<IDomainEvent> _domainEvents = [];
+
     public DateTime CreatedAtUtc { get; set; }
+
     public DateTime? ModifiedAtUtc { get; set; }
 
-    private readonly List<IDomainEvent> _domainEvents = new();
-    
     public IReadOnlyCollection<IDomainEvent> GetDomainEvents()
     {
         return _domainEvents.AsReadOnly();

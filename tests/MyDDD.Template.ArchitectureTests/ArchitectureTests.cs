@@ -1,5 +1,4 @@
 using FluentAssertions;
-using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Domain;
 using MyDDD.Template.Domain.Primitives;
 using MyDDD.Template.Infrastructure;
@@ -9,7 +8,6 @@ namespace MyDDD.Template.ArchitectureTests;
 
 public class ArchitectureTests
 {
-    private const string DomainNamespace = "MyDDD.Template.Domain";
     private const string ApplicationNamespace = "MyDDD.Template.Application";
     private const string InfrastructureNamespace = "MyDDD.Template.Infrastructure";
     private const string ApiNamespace = "MyDDD.Template.Api";
@@ -24,7 +22,7 @@ public class ArchitectureTests
         {
             ApplicationNamespace,
             InfrastructureNamespace,
-            ApiNamespace
+            ApiNamespace,
         };
 
         // Act
@@ -47,7 +45,7 @@ public class ArchitectureTests
         var otherProjects = new[]
         {
             InfrastructureNamespace,
-            ApiNamespace
+            ApiNamespace,
         };
 
         // Act

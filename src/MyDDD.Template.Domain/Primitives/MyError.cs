@@ -1,5 +1,15 @@
 namespace MyDDD.Template.Domain.Primitives;
 
+public enum ErrorType
+{
+    Failure = 0,
+    Validation = 1,
+    NotFound = 2,
+    Conflict = 3,
+    Problem = 4,
+    Unauthorised = 5,
+}
+
 public sealed record MyError(string Code, string Message, ErrorType Type)
 {
     public static readonly MyError None = new(string.Empty, string.Empty, ErrorType.Failure);
@@ -34,14 +44,4 @@ public sealed record MyError(string Code, string Message, ErrorType Type)
     {
         return new MyError(code, message, ErrorType.Unauthorised);
     }
-}
-
-public enum ErrorType
-{
-    Failure = 0,
-    Validation = 1,
-    NotFound = 2,
-    Conflict = 3,
-    Problem = 4,
-    Unauthorised = 5,
 }

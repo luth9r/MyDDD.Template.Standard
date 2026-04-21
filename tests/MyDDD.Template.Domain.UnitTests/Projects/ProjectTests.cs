@@ -1,7 +1,6 @@
 using FluentAssertions;
 using MyDDD.Template.Domain.Projects;
 using MyDDD.Template.Domain.Projects.DomainEvents;
-using Xunit;
 
 namespace MyDDD.Template.Domain.UnitTests.Projects;
 

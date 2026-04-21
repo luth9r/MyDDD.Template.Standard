@@ -13,6 +13,16 @@ public sealed class UserContext(
 {
     private Guid? _cachedUserId;
 
+    public string? Email => httpContextAccessor.HttpContext?.User.FindFirstValue(JwtRegisteredClaimNames.Email);
+
+    public string? FirstName => httpContextAccessor.HttpContext?.User.FindFirstValue(JwtRegisteredClaimNames.GivenName);
+
+    public string? LastName => httpContextAccessor.HttpContext?.User.FindFirstValue(JwtRegisteredClaimNames.FamilyName);
+
+    public string IdentityId =>
+        httpContextAccessor.HttpContext?.User.FindFirstValue(JwtRegisteredClaimNames.Sub) ??
+        throw new UnauthorizedAccessException();
+
     public async Task<Guid> GetUserIdAsync(CancellationToken cancellationToken = default)
     {
         if (_cachedUserId.HasValue)
@@ -41,14 +51,4 @@ public sealed class UserContext(
 
         throw new UnauthorizedAccessException("User identification failed.");
     }
-
-    public string IdentityId =>
-        httpContextAccessor.HttpContext?.User.FindFirstValue(JwtRegisteredClaimNames.Sub) ??
-        throw new UnauthorizedAccessException();
-
-    public string? Email => httpContextAccessor.HttpContext?.User.FindFirstValue(JwtRegisteredClaimNames.Email);
-
-    public string? FirstName => httpContextAccessor.HttpContext?.User.FindFirstValue(JwtRegisteredClaimNames.GivenName);
-
-    public string? LastName => httpContextAccessor.HttpContext?.User.FindFirstValue(JwtRegisteredClaimNames.FamilyName);
 }

@@ -1,6 +1,5 @@
 using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Domain.Primitives;
-using MyDDD.Template.Domain.Projects;
 
 namespace MyDDD.Template.Application.Projects.GetProjectById;
 

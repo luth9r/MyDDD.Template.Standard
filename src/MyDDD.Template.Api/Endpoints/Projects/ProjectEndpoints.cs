@@ -17,10 +17,14 @@ public sealed class ProjectEndpoints : IEndpoint
             .WithTags("Projects")
             .RequireAuthorization();
 
-        group.MapPost("", CreateProject);
+        group.MapPost(string.Empty, CreateProject)
+            .WithName("CreateProject");
+
         group.MapGet("{id:guid}", GetProject)
             .WithName("GetProject");
-        group.MapGet("", GetAllUserProjects);
+
+        group.MapGet(string.Empty, GetAllUserProjects)
+            .WithName("GetAllUserProjects");
     }
 
     private static async Task<IResult> CreateProject(
@@ -52,7 +56,8 @@ public sealed class ProjectEndpoints : IEndpoint
         CancellationToken cancellationToken)
     {
         var result =
-            await bus.InvokeAsync<Result<IReadOnlyList<ProjectResponse>>>(new GetAllUserProjectsQuery(),
+            await bus.InvokeAsync<Result<IReadOnlyList<ProjectResponse>>>(
+                new GetAllUserProjectsQuery(),
                 cancellationToken);
 
         return Results.Ok(result.Value);

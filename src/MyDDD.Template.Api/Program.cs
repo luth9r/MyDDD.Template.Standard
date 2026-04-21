@@ -4,7 +4,6 @@ using MyDDD.Template.Infrastructure;
 using MyDDD.Template.ServiceDefaults;
 using Serilog;
 
-
 try
 {
     Log.Information("Starting web application");
@@ -29,8 +28,6 @@ try
         .MapGroup("/api/v{version:apiVersion}")
         .WithApiVersionSet(apiVersionSet);
 
-    app.UseSerilogRequestLogging();
-
     if (app.Environment.IsDevelopment())
     {
         app.ApplyMigrations();
@@ -39,6 +36,7 @@ try
     }
 
     app.UseExceptionHandler();
+    app.UseSerilogRequestLogging();
     app.UseAuthentication();
     app.UseAuthorization();
 

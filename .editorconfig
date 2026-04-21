@@ -353,3 +353,38 @@ dotnet_naming_rule.parameters_rule.severity = warning
 [tests/**.cs]
 # CA1707: Identifiers should not contain underscores
 dotnet_diagnostic.CA1707.severity = none
+
+
+# Stylecop
+[*.cs]
+dotnet_style_qualification_for_field = false:none
+dotnet_style_qualification_for_property = false:none
+dotnet_style_qualification_for_method = false:none
+dotnet_style_qualification_for_event = false:none
+
+# File header
+dotnet_diagnostic.SA1633.severity = none
+
+# One type for single file
+dotnet_diagnostic.SA1402.severity = none
+
+# Elements should be documented
+dotnet_diagnostic.SA1600.severity = none
+
+# Partial elements should be documented
+dotnet_diagnostic.SA1601.severity = none
+
+# Enumeration items should be documented
+dotnet_diagnostic.SA1602.severity = none
+
+# Underlines
+dotnet_diagnostic.SA1309.severity = none
+
+# File name should match first type name
+dotnet_diagnostic.SA1649.severity = none
+
+# Parameter names should begin with lower-case letter
+dotnet_diagnostic.SA1313.severity = none
+
+# Use expression body for lambda expressions
+dotnet_diagnostic.IDE0053.severity = none

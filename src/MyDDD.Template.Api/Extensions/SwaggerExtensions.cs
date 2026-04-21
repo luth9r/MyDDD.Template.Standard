@@ -46,7 +46,6 @@ internal static class SwaggerExtensions
                     Description = "Enter JWT token",
                 };
 
-
                 document.SetReferenceHostDocument();
                 return Task.CompletedTask;
             });

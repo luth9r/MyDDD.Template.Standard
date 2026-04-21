@@ -17,5 +17,4 @@ public sealed record AccessTokenResponse(
     string? IdToken,
     [property: JsonPropertyName("session_state")]
     string? SessionState,
-    [property: JsonPropertyName("scope")] string? Scope
-);
+    [property: JsonPropertyName("scope")] string? Scope);

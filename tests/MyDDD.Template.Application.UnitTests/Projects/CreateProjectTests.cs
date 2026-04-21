@@ -1,11 +1,8 @@
-using Moq;
 using FluentAssertions;
+using Moq;
 using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Application.Projects.CreateProject;
-using MyDDD.Template.Domain;
-using MyDDD.Template.Domain.Primitives;
 using MyDDD.Template.Domain.Projects;
-using Xunit;
 
 namespace MyDDD.Template.Application.UnitTests.Projects;
 

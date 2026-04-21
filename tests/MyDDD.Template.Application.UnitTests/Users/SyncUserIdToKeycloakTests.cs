@@ -1,10 +1,9 @@
-using Moq;
 using FluentAssertions;
+using Moq;
 using MyDDD.Template.Application.Abstractions;
 using MyDDD.Template.Application.Exceptions;
 using MyDDD.Template.Application.Users.LoginUser;
 using MyDDD.Template.Domain.Primitives;
-using Xunit;
 
 namespace MyDDD.Template.Application.UnitTests.Users;
 
@@ -27,10 +26,12 @@ public class SyncUserIdToKeycloakTests
         await SyncUserIdToKeycloakHandler.Handle(message, _identityServiceMock.Object, CancellationToken.None);
 
         // Assert
-        _identityServiceMock.Verify(x => x.UpdateUserAttributesAsync(
+        _identityServiceMock.Verify(
+            x => x.UpdateUserAttributesAsync(
             message.IdentityId,
             It.IsAny<Dictionary<string, string[]>>(),
-            It.IsAny<CancellationToken>()), Times.Once);
+            It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 
     [Fact]

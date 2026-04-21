@@ -301,7 +301,7 @@
           "attributes": {}
         }
       ],
-      "api-client": [],
+      "admin": [],
       "security-admin-console": [],
       "admin-cli": [],
       "account-console": [],
@@ -316,7 +316,7 @@
           "attributes": {}
         }
       ],
-      "scalar-client": [],
+      "client": [],
       "account": [
         {
           "id": "ce2e5fd9-5171-42fa-aafb-3029383cd02d",
@@ -463,12 +463,12 @@
   "users": [
     {
       "id": "9616c9af-e2de-45ab-93fd-7a4f5b41be98",
-      "username": "service-account-api-client",
+      "username": "service-account-admin",
       "emailVerified": false,
       "enabled": true,
       "createdTimestamp": 1775928251288,
       "totp": false,
-      "serviceAccountClientId": "api-client",
+      "serviceAccountClientId": "admin",
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
@@ -655,7 +655,7 @@
     },
     {
       "id": "338e812c-29cd-41e8-885b-40de836ddcc3",
-      "clientId": "api-client",
+      "clientId": "admin",
       "name": "",
       "description": "",
       "rootUrl": "",
@@ -665,7 +665,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "my-admin-secret",
       "redirectUris": [
         "/*"
       ],
@@ -806,7 +806,7 @@
     },
     {
       "id": "7c2623c3-1183-483d-8aa6-2bcf17a69442",
-      "clientId": "scalar-client",
+      "clientId": "client",
       "name": "",
       "description": "",
       "rootUrl": "",

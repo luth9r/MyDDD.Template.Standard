@@ -15,7 +15,6 @@ internal static class JwtExtensions
             jwt.Claims.FirstOrDefault(c => c.Type == "email_verified")?.Value == "true",
             Guid.TryParse(jwt.Claims.FirstOrDefault(c => c.Type == "userId")?.Value, out var id) ? id : null,
             jwt.Claims.FirstOrDefault(c => c.Type == "given_name")?.Value ?? string.Empty,
-            jwt.Claims.FirstOrDefault(c => c.Type == "family_name")?.Value ?? string.Empty
-        );
+            jwt.Claims.FirstOrDefault(c => c.Type == "family_name")?.Value ?? string.Empty);
     }
 }

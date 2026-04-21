@@ -1,10 +1,8 @@
 namespace MyDDD.Template.Application.Exceptions;
 
-using DomainValidationResult = Domain.Primitives.ValidationResult;
-
-public sealed class ValidationException(DomainValidationResult result) : Exception("Validation failed", null)
+public sealed class ValidationException(Domain.Primitives.ValidationResult result) : Exception("Validation failed", null)
 {
-    public DomainValidationResult ValidationResult { get; } = result;
+    public Domain.Primitives.ValidationResult ValidationResult { get; } = result;
 
     public override string? StackTrace => null;
 }

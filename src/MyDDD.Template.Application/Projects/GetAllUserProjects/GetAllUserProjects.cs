@@ -3,12 +3,12 @@ using MyDDD.Template.Domain.Primitives;
 
 namespace MyDDD.Template.Application.Projects.GetAllUserProjects;
 
-public sealed record GetAllUserProjectsQuery;
+public sealed record GetAllUserProjectsQuery();
 
 public static class GetAllUserProjectsQueryHandler
 {
     public static async Task<Result<IReadOnlyList<ProjectResponse>>> Handle(
-        GetAllUserProjectsQuery request,
+        GetAllUserProjectsQuery _,
         IProjectQueries projectQueries,
         IUserContext userContext,
         CancellationToken cancellationToken)

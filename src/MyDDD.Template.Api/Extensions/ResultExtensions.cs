@@ -40,9 +40,12 @@ public static class ResultExtensions
     {
         return type switch
         {
+            ErrorType.Failure => "Internal Server Error",
+            ErrorType.Validation => "Validation Error",
             ErrorType.NotFound => "Not Found",
             ErrorType.Conflict => "Conflict",
-            ErrorType.Validation => "Validation Error",
+            ErrorType.Problem => "Problem",
+            ErrorType.Unauthorised => "Unauthorized",
             _ => "Bad Request",
         };
     }
@@ -51,9 +54,11 @@ public static class ResultExtensions
     {
         return type switch
         {
+            ErrorType.Failure => StatusCodes.Status500InternalServerError,
             ErrorType.NotFound => StatusCodes.Status404NotFound,
             ErrorType.Conflict => StatusCodes.Status409Conflict,
             ErrorType.Validation => StatusCodes.Status400BadRequest,
+            ErrorType.Problem => StatusCodes.Status400BadRequest,
             ErrorType.Unauthorised => StatusCodes.Status401Unauthorized,
             _ => StatusCodes.Status400BadRequest,
         };
